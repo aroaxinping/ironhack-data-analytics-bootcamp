@@ -10,4 +10,4 @@ A medida que avance el bootcamp se irán añadiendo subcarpetas por módulo (`mo
 
 ## Sobre el bootcamp
 
-Data Analytics Bootcamp, Ironhack — inicio julio 2026.
+Data Analytics Bootcamp, Ironhack — programa intensivo full-time de 9 semanas, con clases en vivo impartidas en inglés. Inicio: julio 2026.
