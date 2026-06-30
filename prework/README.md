@@ -1,6 +1,8 @@
 # Prework
 
-Ejercicios previos al bootcamp, en orden:
+Trabajo previo obligatorio antes de comenzar el bootcamp, con una dedicación estimada de unas 40 horas. El objetivo es adquirir una base sólida en los conocimientos básicos de programación y estadística que se utilizarán a lo largo del programa.
+
+Ejercicios, en orden:
 
 1. [`2_conditional_statements.ipynb`](2_conditional_statements.ipynb) — condicionales (if/elif/else)
 2. [`3.1_data_structures_lists.ipynb`](3.1_data_structures_lists.ipynb) — listas
