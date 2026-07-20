@@ -22,56 +22,56 @@ Each week has its own folder with a `README.md` summary and `day1`–`day5` subf
 </details>
 
 <details>
-<summary><strong>Week 2</strong></summary>
+<summary><strong>Week 2 — DW & Retrieval</strong></summary>
 
 [Week folder](week2) — days: [1](week2/day1) · [2](week2/day2) · [3](week2/day3) · [4](week2/day4) · [5](week2/day5)
 
 </details>
 
 <details>
-<summary><strong>Week 3</strong></summary>
+<summary><strong>Week 3 — SQL</strong></summary>
 
 [Week folder](week3) — days: [1](week3/day1) · [2](week3/day2) · [3](week3/day3) · [4](week3/day4) · [5](week3/day5)
 
 </details>
 
 <details>
-<summary><strong>Week 4</strong></summary>
+<summary><strong>Week 4 — First Project</strong></summary>
 
 [Week folder](week4) — days: [1](week4/day1) · [2](week4/day2) · [3](week4/day3) · [4](week4/day4) · [5](week4/day5)
 
 </details>
 
 <details>
-<summary><strong>Week 5</strong></summary>
+<summary><strong>Week 5 — EDA and Inferential Stats</strong></summary>
 
 [Week folder](week5) — days: [1](week5/day1) · [2](week5/day2) · [3](week5/day3) · [4](week5/day4) · [5](week5/day5)
 
 </details>
 
 <details>
-<summary><strong>Week 6</strong></summary>
+<summary><strong>Week 6 — Second Project</strong></summary>
 
 [Week folder](week6) — days: [1](week6/day1) · [2](week6/day2) · [3](week6/day3) · [4](week6/day4) · [5](week6/day5)
 
 </details>
 
 <details>
-<summary><strong>Week 7</strong></summary>
+<summary><strong>Week 7 — Machine Learning</strong></summary>
 
 [Week folder](week7) — days: [1](week7/day1) · [2](week7/day2) · [3](week7/day3) · [4](week7/day4) · [5](week7/day5)
 
 </details>
 
 <details>
-<summary><strong>Week 8</strong></summary>
+<summary><strong>Week 8 — APIs, LLMs, Cloud Computing, BigQuery & Final Project</strong></summary>
 
 [Week folder](week8) — days: [1](week8/day1) · [2](week8/day2) · [3](week8/day3) · [4](week8/day4) · [5](week8/day5)
 
 </details>
 
 <details>
-<summary><strong>Week 9</strong></summary>
+<summary><strong>Week 9 — Final Project</strong></summary>
 
 [Week folder](week9) — days: [1](week9/day1) · [2](week9/day2) · [3](week9/day3) · [4](week9/day4) · [5](week9/day5)
 
