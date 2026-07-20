@@ -22,30 +22,54 @@ Each week has its own folder with a `README.md` summary and `day1`–`day5` subf
 </details>
 
 <details>
-<summary><strong>Week 2 — DW & Retrieval</strong></summary>
+<summary><strong>Week 2 — Data Wrangling & Retrieval</strong></summary>
 
-[Week folder](week2) — days: [1](week2/day1) · [2](week2/day2) · [3](week2/day3) · [4](week2/day4) · [5](week2/day5)
+[Week folder](week2)
+
+- [Day 1](week2/day1) — Data wrangling, GDPR & intro to Pandas
+- [Day 2](week2/day2) — Data cleaning & manipulation
+- [Day 3](week2/day3) — Structuring, combining & aggregating data
+- [Day 4](week2/day4) — Web scraping
+- [Day 5](week2/day5) — Quest deliverable & Data Wrangling challenge
 
 </details>
 
 <details>
 <summary><strong>Week 3 — SQL</strong></summary>
 
-[Week folder](week3) — days: [1](week3/day1) · [2](week3/day2) · [3](week3/day3) · [4](week3/day4) · [5](week3/day5)
+[Week folder](week3)
+
+- [Day 1](week3/day1) — Databases & data modelling
+- [Day 2](week3/day2) — Basic SQL queries & aggregation
+- [Day 3](week3/day3) — SQL joins & subqueries
+- [Day 4](week3/day4) — Temporary tables, views, CTEs & window functions
+- [Day 5](week3/day5) — Connecting SQL & Python, SQL challenge
 
 </details>
 
 <details>
 <summary><strong>Week 4 — First Project</strong></summary>
 
-[Week folder](week4) — days: [1](week4/day1) · [2](week4/day2) · [3](week4/day3) · [4](week4/day4) · [5](week4/day5)
+[Week folder](week4)
+
+- [Day 1](week4/day1) — Project kickoff, Git collaboration & Agile
+- [Day 2](week4/day2) — Project work
+- [Day 3](week4/day3) — Project work
+- [Day 4](week4/day4) — Project work
+- [Day 5](week4/day5) — Presentation & deliverable
 
 </details>
 
 <details>
 <summary><strong>Week 5 — EDA and Inferential Stats</strong></summary>
 
-[Week folder](week5) — days: [1](week5/day1) · [2](week5/day2) · [3](week5/day3) · [4](week5/day4) · [5](week5/day5)
+[Week folder](week5)
+
+- [Day 1](week5/day1) — EDA & univariate analysis
+- [Day 2](week5/day2) — EDA bivariate analysis
+- [Day 3](week5/day3) — Probability & hypothesis testing
+- [Day 4](week5/day4) — Correlation, normality & Tableau
+- [Day 5](week5/day5) — Advanced Tableau, storytelling & Vanguard project
 
 </details>
 
