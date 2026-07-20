@@ -11,117 +11,117 @@ Each week has its own folder with a `README.md` summary and `day1`–`day5` subf
 <details>
 <summary><strong>Week 1 — Introduction to Python</strong></summary>
 
-[Week folder](week1)
+[Week folder](week01)
 
-- [Day 1](week1/day1) — Terminal, Git & GitHub, data structures
-- [Day 2](week1/day2) — Flow control & functions
-- [Day 3](week1/day3) — More on functions & comprehensions
-- [Day 4](week1/day4) — Lambda, map/reduce/filter & error handling
-- [Day 5](week1/day5) — Object-Oriented Programming & Python challenge
+- [Day 1](week01/day1) — Terminal, Git & GitHub, data structures
+- [Day 2](week01/day2) — Flow control & functions
+- [Day 3](week01/day3) — More on functions & comprehensions
+- [Day 4](week01/day4) — Lambda, map/reduce/filter & error handling
+- [Day 5](week01/day5) — Object-Oriented Programming & Python challenge
 
 </details>
 
 <details>
 <summary><strong>Week 2 — Data Wrangling & Retrieval</strong></summary>
 
-[Week folder](week2)
+[Week folder](week02)
 
-- [Day 1](week2/day1) — Data wrangling, GDPR & intro to Pandas
-- [Day 2](week2/day2) — Data cleaning & manipulation
-- [Day 3](week2/day3) — Structuring, combining & aggregating data
-- [Day 4](week2/day4) — Web scraping
-- [Day 5](week2/day5) — Quest deliverable & Data Wrangling challenge
+- [Day 1](week02/day1) — Data wrangling, GDPR & intro to Pandas
+- [Day 2](week02/day2) — Data cleaning & manipulation
+- [Day 3](week02/day3) — Structuring, combining & aggregating data
+- [Day 4](week02/day4) — Web scraping
+- [Day 5](week02/day5) — Quest deliverable & Data Wrangling challenge
 
 </details>
 
 <details>
 <summary><strong>Week 3 — SQL</strong></summary>
 
-[Week folder](week3)
+[Week folder](week03)
 
-- [Day 1](week3/day1) — Databases & data modelling
-- [Day 2](week3/day2) — Basic SQL queries & aggregation
-- [Day 3](week3/day3) — SQL joins & subqueries
-- [Day 4](week3/day4) — Temporary tables, views, CTEs & window functions
-- [Day 5](week3/day5) — Connecting SQL & Python, SQL challenge
+- [Day 1](week03/day1) — Databases & data modelling
+- [Day 2](week03/day2) — Basic SQL queries & aggregation
+- [Day 3](week03/day3) — SQL joins & subqueries
+- [Day 4](week03/day4) — Temporary tables, views, CTEs & window functions
+- [Day 5](week03/day5) — Connecting SQL & Python, SQL challenge
 
 </details>
 
 <details>
 <summary><strong>Week 4 — First Project</strong></summary>
 
-[Week folder](week4)
+[Week folder](week04)
 
-- [Day 1](week4/day1) — Project kickoff, Git collaboration & Agile
-- [Day 2](week4/day2) — Project work
-- [Day 3](week4/day3) — Project work
-- [Day 4](week4/day4) — Project work
-- [Day 5](week4/day5) — Presentation & deliverable
+- [Day 1](week04/day1) — Project kickoff, Git collaboration & Agile
+- [Day 2](week04/day2) — Project work
+- [Day 3](week04/day3) — Project work
+- [Day 4](week04/day4) — Project work
+- [Day 5](week04/day5) — Presentation & deliverable
 
 </details>
 
 <details>
 <summary><strong>Week 5 — EDA and Inferential Stats</strong></summary>
 
-[Week folder](week5)
+[Week folder](week05)
 
-- [Day 1](week5/day1) — EDA & univariate analysis
-- [Day 2](week5/day2) — EDA bivariate analysis
-- [Day 3](week5/day3) — Probability & hypothesis testing
-- [Day 4](week5/day4) — Correlation, normality & Tableau
-- [Day 5](week5/day5) — Advanced Tableau, storytelling & Vanguard project
+- [Day 1](week05/day1) — EDA & univariate analysis
+- [Day 2](week05/day2) — EDA bivariate analysis
+- [Day 3](week05/day3) — Probability & hypothesis testing
+- [Day 4](week05/day4) — Correlation, normality & Tableau
+- [Day 5](week05/day5) — Advanced Tableau, storytelling & Vanguard project
 
 </details>
 
 <details>
 <summary><strong>Week 6 — Second Project</strong></summary>
 
-[Week folder](week6)
+[Week folder](week06)
 
-- [Day 1](week6/day1) — Project kickoff, Git & environments
-- [Day 2](week6/day2) — Project work
-- [Day 3](week6/day3) — Project work
-- [Day 4](week6/day4) — Project work
-- [Day 5](week6/day5) — Presentation & deliverable
+- [Day 1](week06/day1) — Project kickoff, Git & environments
+- [Day 2](week06/day2) — Project work
+- [Day 3](week06/day3) — Project work
+- [Day 4](week06/day4) — Project work
+- [Day 5](week06/day5) — Presentation & deliverable
 
 </details>
 
 <details>
 <summary><strong>Week 7 — Machine Learning</strong></summary>
 
-[Week folder](week7)
+[Week folder](week07)
 
-- [Day 1](week7/day1) — Intro to Machine Learning
-- [Day 2](week7/day2) — Feature engineering
-- [Day 3](week7/day3) — Supervised learning & ensemble methods
-- [Day 4](week7/day4) — Hyperparameter tuning
-- [Day 5](week7/day5) — Class imbalance
+- [Day 1](week07/day1) — Intro to Machine Learning
+- [Day 2](week07/day2) — Feature engineering
+- [Day 3](week07/day3) — Supervised learning & ensemble methods
+- [Day 4](week07/day4) — Hyperparameter tuning
+- [Day 5](week07/day5) — Class imbalance
 
 </details>
 
 <details>
 <summary><strong>Week 8 — APIs, LLMs, Cloud Computing, BigQuery & Final Project</strong></summary>
 
-[Week folder](week8)
+[Week folder](week08)
 
-- [Day 1](week8/day1) — Week 7 project presentation & deliverable
-- [Day 2](week8/day2) — APIs
-- [Day 3](week8/day3) — Large Language Models (LLMs)
-- [Day 4](week8/day4) — Cloud computing & BigQuery
-- [Day 5](week8/day5) — Final project kickoff
+- [Day 1](week08/day1) — Week 7 project presentation & deliverable
+- [Day 2](week08/day2) — APIs
+- [Day 3](week08/day3) — Large Language Models (LLMs)
+- [Day 4](week08/day4) — Cloud computing & BigQuery
+- [Day 5](week08/day5) — Final project kickoff
 
 </details>
 
 <details>
 <summary><strong>Week 9 — Final Project</strong></summary>
 
-[Week folder](week9)
+[Week folder](week09)
 
-- [Day 1](week9/day1) — Final project work
-- [Day 2](week9/day2) — Final project work
-- [Day 3](week9/day3) — Final project work
-- [Day 4](week9/day4) — Final project work
-- [Day 5](week9/day5) — Presentation & deliverable
+- [Day 1](week09/day1) — Final project work
+- [Day 2](week09/day2) — Final project work
+- [Day 3](week09/day3) — Final project work
+- [Day 4](week09/day4) — Final project work
+- [Day 5](week09/day5) — Presentation & deliverable
 
 </details>
 
