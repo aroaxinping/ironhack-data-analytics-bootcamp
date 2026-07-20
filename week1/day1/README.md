@@ -107,3 +107,69 @@ git config --global core.autocrlf input
   # macOS
   git config --global core.editor "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl --new-window --wait"
   ```
+
+## Git basic concepts
+
+A change travels through three areas in Git:
+
+- **Working directory (WD)** — the actual files in my folder.
+- **Staging area (SA)** — a waiting room for the changes I want in the next commit.
+- **Repository (RE)** — the saved history of commits.
+
+Basic workflow inside a project folder:
+
+```bash
+git init                 # start tracking this folder (only once per project)
+git status               # see what changed and what's staged
+git add my_file.txt      # move a change into the staging area
+git commit -m "message"  # save a snapshot into the repository
+git log                  # view the history of commits
+```
+
+- Untracked or modified files show in **red**; staged files show in **green**.
+- A **commit** is a saved snapshot with a short message describing the change.
+
+## GitHub
+
+Git runs on my computer; **GitHub** stores repos in the cloud so I can back them
+up and share/collaborate.
+
+- Each repo has an **owner** — only the owner can change its contents.
+- A **personal access token (PAT)** is a credential to push/pull over HTTPS
+  (like a command-line password). It starts with `ghp_` and is a **secret** —
+  never commit it. (I use the `gh` CLI, which handles this for me.)
+
+Connecting local and remote, and moving commits:
+
+```bash
+git clone <repo_url>      # copy a GitHub repo to my computer
+git remote -v             # check which remote this repo is linked to
+git branch                # list branches; the active one has a *
+git push origin <branch>  # upload my commits to GitHub
+git fetch <branch>        # download history WITHOUT touching my files
+git pull <branch>         # download history AND update my files
+```
+
+- **fetch vs pull:** `fetch` updates only the history (safe when I have work in
+  progress — I merge later with `git merge`); `pull` updates the history *and*
+  my files.
+- **Fork** — my own copy of someone else's repo, under my account (not synced
+  with the original).
+- **Pull request** — a proposal to merge changes from one branch into another.
+
+## Data structures (Python)
+
+Four built-in ways to store collections of data:
+
+| Structure | Example | Ordered | Mutable | Notes |
+|---|---|---|---|---|
+| List | `[1, 2, 3]` | yes | yes | most common; allows duplicates |
+| Tuple | `(1, 2, 3)` | yes | no | fixed, can't be changed |
+| Set | `{1, 2, 3}` | no | yes | no duplicates |
+| Dict | `{"key": "value"}` | yes | yes | key–value pairs |
+
+- Access items by **index** (`my_list[0]`) and ranges by **slicing** (`my_list[1:3]`).
+- Each type has its own **built-in methods** (e.g. `.append()` for lists,
+  `.keys()` for dicts).
+
+This lesson is a code-along in a Jupyter notebook (`1.1_data_structures.ipynb`).
