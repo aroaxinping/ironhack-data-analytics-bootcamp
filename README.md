@@ -76,28 +76,52 @@ Each week has its own folder with a `README.md` summary and `day1`–`day5` subf
 <details>
 <summary><strong>Week 6 — Second Project</strong></summary>
 
-[Week folder](week6) — days: [1](week6/day1) · [2](week6/day2) · [3](week6/day3) · [4](week6/day4) · [5](week6/day5)
+[Week folder](week6)
+
+- [Day 1](week6/day1) — Project kickoff, Git & environments
+- [Day 2](week6/day2) — Project work
+- [Day 3](week6/day3) — Project work
+- [Day 4](week6/day4) — Project work
+- [Day 5](week6/day5) — Presentation & deliverable
 
 </details>
 
 <details>
 <summary><strong>Week 7 — Machine Learning</strong></summary>
 
-[Week folder](week7) — days: [1](week7/day1) · [2](week7/day2) · [3](week7/day3) · [4](week7/day4) · [5](week7/day5)
+[Week folder](week7)
+
+- [Day 1](week7/day1) — Intro to Machine Learning
+- [Day 2](week7/day2) — Feature engineering
+- [Day 3](week7/day3) — Supervised learning & ensemble methods
+- [Day 4](week7/day4) — Hyperparameter tuning
+- [Day 5](week7/day5) — Class imbalance
 
 </details>
 
 <details>
 <summary><strong>Week 8 — APIs, LLMs, Cloud Computing, BigQuery & Final Project</strong></summary>
 
-[Week folder](week8) — days: [1](week8/day1) · [2](week8/day2) · [3](week8/day3) · [4](week8/day4) · [5](week8/day5)
+[Week folder](week8)
+
+- [Day 1](week8/day1) — Week 7 project presentation & deliverable
+- [Day 2](week8/day2) — APIs
+- [Day 3](week8/day3) — Large Language Models (LLMs)
+- [Day 4](week8/day4) — Cloud computing & BigQuery
+- [Day 5](week8/day5) — Final project kickoff
 
 </details>
 
 <details>
 <summary><strong>Week 9 — Final Project</strong></summary>
 
-[Week folder](week9) — days: [1](week9/day1) · [2](week9/day2) · [3](week9/day3) · [4](week9/day4) · [5](week9/day5)
+[Week folder](week9)
+
+- [Day 1](week9/day1) — Final project work
+- [Day 2](week9/day2) — Final project work
+- [Day 3](week9/day3) — Final project work
+- [Day 4](week9/day4) — Final project work
+- [Day 5](week9/day5) — Presentation & deliverable
 
 </details>
 
