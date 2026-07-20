@@ -125,7 +125,51 @@ Each week has its own folder with a `README.md` summary and `day1`–`day5` subf
 
 </details>
 
+<details>
+<summary><strong>Week 10 — Extra Week 1: Unsupervised Learning & Streamlit</strong></summary>
+
+[Week folder](week10)
+
+- [Day 1](week10/day1) — Web scraping recap & Gnod project
+- [Day 2](week10/day2) — Unsupervised learning methods
+- [Day 3](week10/day3) — Unsupervised learning metrics
+- [Day 4](week10/day4) — Streamlit
+- [Day 5](week10/day5) — PCA & week deliverable
+
+</details>
+
+<details>
+<summary><strong>Week 11 — Extra Week 2: NumPy, PyTorch & Deep Learning</strong></summary>
+
+[Week folder](week11)
+
+- [Day 1](week11/day1) — Google Cloud Platform
+- [Day 2](week11/day2) — NumPy
+- [Day 3](week11/day3) — PyTorch tensors & neural networks
+- [Day 4](week11/day4) — Build an LLM
+- [Day 5](week11/day5) — Neural network example
+
+</details>
+
 As the bootcamp progresses, each week will be filled in with its projects and exercises.
+
+## Bonus content
+
+Optional extra modules outside the 9 core weeks.
+
+<details>
+<summary><strong>Flask & Django</strong></summary>
+
+[Folder](bonus/flask-django) — model deployment with Flask & Django (RNCP): intro to model deployment, deploying a data science project with Django, and Flask for data science deployment.
+
+</details>
+
+<details>
+<summary><strong>AI Fundamentals</strong></summary>
+
+[Folder](bonus/ai-fundamentals) — introduction to AI, ChatGPT & MS Copilot, AI ethics, AI security, field-specific AI applications, the societal impact of AI and the future of AI.
+
+</details>
 
 ## About the bootcamp
 
