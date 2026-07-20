@@ -2,6 +2,8 @@
 
 Documentation and exercises from the Ironhack Data Analytics bootcamp (July 2026).
 
+> The bootcamp is taught in English, so I keep all my notes in English too.
+
 ## Structure
 
 - [`prework/`](prework) — exercises before the bootcamp starts: data types, descriptive statistics, pseudocode, data structures (lists, dictionaries), conditionals and functions in Python.
