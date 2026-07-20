@@ -1,16 +1,24 @@
-# Week 6
+# Week 6 — Second Project
 
-## Day 1
-_Pendiente_
+Second group project: the Vanguard Project.
 
-## Day 2
-_Pendiente_
+## [Day 1](day1) — Project kickoff, Git & environments
+- Git and GitHub - More on Git Commands, Fork and Clone
+- Environments
+- Agile
+- Vanguard Project
 
-## Day 3
-_Pendiente_
+## [Day 2](day2) — Project work
+- Stand up + daily checklist
 
-## Day 4
-_Pendiente_
+## [Day 3](day3) — Project work
+- Stand up + daily checklist
 
-## Day 5
-_Pendiente_
+## [Day 4](day4) — Project work
+- Stand up + daily checklist
+
+## [Day 5](day5) — Presentation & deliverable
+- Project Presentation
+- Project 1 Deliverable
+- Module and Project Retrospective
+- Project Code Review
