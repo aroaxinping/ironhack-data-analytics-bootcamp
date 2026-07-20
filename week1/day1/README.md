@@ -1,6 +1,7 @@
-# Day 1 — Terminal commands
+# Day 1 — Terminal & Git
 
-My notes from the "Terminal commands" lesson.
+My notes from the Day 1 lessons: terminal commands, and installing and
+configuring Git.
 
 ## What is a terminal?
 
@@ -69,3 +70,40 @@ gone for good.
   `echo "Hello" > my_file.txt`
 - **`>>`** — append the output to the end of a file:
   `echo "Hello" >> my_file.txt`
+
+## Git installation
+
+- **macOS / Windows** — download the installer from the
+  [Git website](https://git-scm.com) and run it (the default options are fine).
+- **Linux** — from the terminal:
+  ```bash
+  sudo apt update
+  sudo apt install git
+  ```
+
+## Configuring Git
+
+Open the terminal (macOS/Linux) or GitBash (Windows) and set your identity.
+These run once and apply to every repo (`--global`):
+
+```bash
+git config --global user.name "<your name>"
+git config --global user.email "<your_email_address>"
+git config --global core.autocrlf input
+```
+
+- `<your name>` and `<your_email_address>` are **placeholders** — replace them
+  (including the `< >`) with your own. Text without `< >` is typed as-is.
+- `core.autocrlf input` normalises line endings when committing, so Mac and
+  Windows machines can share the same repo without noisy changes.
+- Typing `git` on its own prints a list of the basic commands.
+
+## Text editor (Sublime)
+
+- **Sublime Text** is a light editor for code and markdown. Download it from
+  the [Sublime website](https://www.sublimetext.com).
+- Set it as Git's default editor, so commit messages open in Sublime:
+  ```bash
+  # macOS
+  git config --global core.editor "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl --new-window --wait"
+  ```
