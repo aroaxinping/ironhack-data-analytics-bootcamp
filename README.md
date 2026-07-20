@@ -9,9 +9,15 @@ Documentation and exercises from the Ironhack Data Analytics bootcamp (July 2026
 Each week has its own folder with a `README.md` summary and `day1`–`day5` subfolders for each day's exercises. Expand a week to jump straight to its days:
 
 <details>
-<summary><strong>Week 1</strong></summary>
+<summary><strong>Week 1 — Introduction to Python</strong></summary>
 
-[Week folder](week1) — days: [1](week1/day1) · [2](week1/day2) · [3](week1/day3) · [4](week1/day4) · [5](week1/day5)
+[Week folder](week1)
+
+- [Day 1](week1/day1) — Terminal, Git & GitHub, data structures
+- [Day 2](week1/day2) — Flow control & functions
+- [Day 3](week1/day3) — More on functions & comprehensions
+- [Day 4](week1/day4) — Lambda, map/reduce/filter & error handling
+- [Day 5](week1/day5) — Object-Oriented Programming & Python challenge
 
 </details>
 
