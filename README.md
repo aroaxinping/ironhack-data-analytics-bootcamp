@@ -5,8 +5,9 @@ Documentación y ejercicios del bootcamp de Data Analytics en Ironhack (julio 20
 ## Estructura
 
 - [`prework/`](prework) — ejercicios previos al inicio del bootcamp: tipos de datos, estadística descriptiva, pseudocódigo, estructuras de datos (listas, diccionarios), condicionales y funciones en Python.
+- `week1/` a `week9/` — una carpeta por semana del bootcamp, cada una con subcarpetas `day1` a `day5` para los ejercicios de cada día y un `README.md` con el resumen semanal.
 
-A medida que avance el bootcamp se irán añadiendo subcarpetas por módulo (`module_1/`, `module_2/`, etc.) con los proyectos y ejercicios correspondientes.
+A medida que avance el bootcamp se irá rellenando cada semana con los proyectos y ejercicios correspondientes.
 
 ## Sobre el bootcamp
 
