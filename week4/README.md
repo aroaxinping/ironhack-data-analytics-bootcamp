@@ -1,16 +1,25 @@
-# Week 4
+# Week 4 — First Project
 
-## Day 1
-_Pendiente_
+First group project: SQL, from data to insight.
 
-## Day 2
-_Pendiente_
+## [Day 1](day1) — Project kickoff, Git collaboration & Agile
+- Git and GitHub - More on Git Commands
+- Git and GitHub - Fork and Clone
+- Git and GitHub - Collaboration
+- Agile
+- First Project: SQL, From Data to Insight
 
-## Day 3
-_Pendiente_
+## [Day 2](day2) — Project work
+- Stand up + daily checklist
 
-## Day 4
-_Pendiente_
+## [Day 3](day3) — Project work
+- Stand up + daily checklist
 
-## Day 5
-_Pendiente_
+## [Day 4](day4) — Project work
+- Stand up + daily checklist
+
+## [Day 5](day5) — Presentation & deliverable
+- Project Presentation
+- Project Deliverable
+- Module and Project Retrospective
+- Project Code Review
