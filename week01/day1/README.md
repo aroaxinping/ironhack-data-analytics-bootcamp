@@ -159,9 +159,10 @@ git pull <branch>         # download history AND update my files
 
 ## Data structures (Python)
 
-> **Note:** We didn't get to cover data structures on Day 1 as planned — the
-> terminal section generated a lot of questions, so we ran out of time. These
-> notes are my own study of the topic to keep up with the schedule.
+> **Note:** Data structures were originally scheduled for Day 1, but the
+> terminal section generated a lot of questions and we ran out of time, so the
+> topic was covered on Day 2 instead. Keeping the notes here since it was
+> planned as Day 1 content.
 
 Four built-in ways to store collections of data:
 
