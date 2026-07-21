@@ -6,6 +6,8 @@ Practice questions on Python lists, dictionaries, sets, and tuples.
 
 ### 1. Slicing a list
 
+**Question:** After slicing a list with `[1:4]`, which elements will be included in the result?
+
 ```python
 my_list = [1, 2, 3, 4, 5]
 result = my_list[1:4]
@@ -20,6 +22,8 @@ Slicing `[start:stop]` includes the start index but excludes the stop index. `[1
 
 ### 2. Dictionary `.get()` with a default value
 
+**Question:** An interviewer asks: "You're working with customer data stored in a dictionary. If a key doesn't exist, how would you safely retrieve a default value?" What will this code return when the `'city'` key is missing?
+
 ```python
 my_dict = {'name': 'Alice', 'age': 25}
 result = my_dict.get('city', 'Not found')
@@ -31,9 +35,61 @@ result = my_dict.get('city', 'Not found')
 
 ---
 
-### 3. Data structure characteristics (select all that apply)
+### 3. Appending and removing from a list
+
+**Question:** A list starts with 3 items. After appending one item and removing another, how many items remain?
 
 ```python
+fruits = ['apple', 'banana', 'orange']
+fruits.append('grape')
+fruits.remove('banana')
+print(len(fruits))
+```
+
+**Answer:** `3`
+
+`.append('grape')` adds one item (4 total), then `.remove('banana')` deletes one specific item by value (back to 3). Net change is zero, so the list still has 3 items — just different ones (`['apple', 'orange', 'grape']`).
+
+---
+
+### 4. Set intersection
+
+**Question:** The intersection of two sets returns elements that appear in both. What will be the result of this operation?
+
+```python
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+result = set1.intersection(set2)
+print(result)
+```
+
+**Answer:** `{3}`
+
+`.intersection()` returns only the elements common to **both** sets. `3` is the only value present in both `set1` and `set2`.
+
+---
+
+### 5. Indexing a tuple
+
+**Question:** Accessing index `[1]` of a tuple returns which element?
+
+```python
+my_tuple = (10, 20, 30)
+result = my_tuple[1]
+```
+
+**Answer:** `20`
+
+Tuples are indexed the same way as lists — position 0 is the first element. `my_tuple[1]` is the second element: `20`.
+
+---
+
+### 6. Data structure characteristics (select all that apply)
+
+**Question:** During a technical screening, you're asked about Python data structures. Which statements correctly describe their characteristics?
+
+```python
+# Consider these data structures:
 my_list = [1, 2, 3]
 my_dict = {'a': 1, 'b': 2}
 my_set = {1, 2, 3}
@@ -49,7 +105,25 @@ my_tuple = (1, 2, 3)
 
 ---
 
-### 4. Sorting a list
+### 7. Nested dictionary access
+
+**Question:** Accessing nested dictionary data requires chaining indices. What value will be returned from this nested access?
+
+```python
+student = {'name': 'John', 'grades': [85, 90, 78]}
+result = student['grades'][1]
+print(result)
+```
+
+**Answer:** `90`
+
+`student['grades']` first gets the list `[85, 90, 78]`. Then `[1]` grabs index 1 of *that* list — `90`. Chaining indices/keys like this lets you reach values buried inside nested structures.
+
+---
+
+### 8. Sorting a list
+
+**Question:** After sorting a list in ascending order, the first element will be which value?
 
 ```python
 numbers = [5, 2, 8, 1, 9]
@@ -63,7 +137,9 @@ print(numbers[0])
 
 ---
 
-### 5. Inserting at an index
+### 9. Inserting at an index
+
+**Question:** Inserting an element at index 1 shifts existing elements. What will the list contain after this insertion?
 
 ```python
 my_list = [1, 2, 3]
@@ -77,7 +153,9 @@ print(my_list)
 
 ---
 
-### 6. Converting dictionary keys to a list
+### 10. Converting dictionary keys to a list
+
+**Question:** Converting dictionary keys to a list creates which data structure?
 
 ```python
 my_dict = {'a': 1, 'b': 2, 'c': 3}
