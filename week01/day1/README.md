@@ -159,6 +159,10 @@ git pull <branch>         # download history AND update my files
 
 ## Data structures (Python)
 
+> **Note:** We didn't get to cover data structures on Day 1 as planned — the
+> terminal section generated a lot of questions, so we ran out of time. These
+> notes are my own study of the topic to keep up with the schedule.
+
 Four built-in ways to store collections of data:
 
 | Structure | Example | Ordered | Mutable | Notes |
