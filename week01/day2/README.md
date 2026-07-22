@@ -142,6 +142,24 @@ print(x)          # ❌ NameError — x doesn't exist out here
 
 **Why it matters:** functions are self-contained — they don't accidentally clash with variables of the same name elsewhere in the program.
 
+### Check for understanding — `count_words` (solved in class)
+
+Exercise from `1.3_functions.ipynb`: write a function that counts the words in a sentence the user types in.
+
+```python
+def count_words(sentence):
+    words = sentence.split()
+    return len(words)
+
+sentence = input("Enter a sentence: ")
+word_count = count_words(sentence)
+print(f"Word count: {word_count}")
+```
+
+- `.split()` with no arguments breaks the string wherever there's whitespace (spaces, tabs, multiple spaces in a row all collapse into one split point) and gives back a list of words.
+- `len()` on that list = how many words there are.
+- Kept `count_words` doing exactly one job (counting) and returning the number — the `input()`/`print()` around it stay outside the function, so the function itself could be reused anywhere without being tied to the console.
+
 ---
 
 ## Quick reference
