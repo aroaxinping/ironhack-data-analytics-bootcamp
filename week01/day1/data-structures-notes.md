@@ -35,6 +35,24 @@ print("Hello,", name)
 
 Common gotcha: if you `input()` a number, you have to `int()` or `float()` it yourself before doing math with it. Also: `print()` returns `None` — don't assign its result to a variable expecting something useful.
 
+### f-strings
+
+The `f` right before the opening quote turns `{ }` inside the string into "evaluate this as code, insert the result" instead of literal text:
+
+```python
+a = 5
+print(f'Value of a is {a}')     # Value of a is 5
+print('Value of a is {a}')      # Value of a is {a}  ← no f, no substitution
+```
+
+Works with any expression, not just a bare variable — math, method calls, formatting:
+
+```python
+print(f'Total: {precio * 1.21:.2f}')   # :.2f → 2 decimal places
+```
+
+It re-reads the value at the moment `print()` runs, so the same template gives different output if the variable changed in between. This is the standard way to build output now — cleaner than `"Hello, " + name + "!"` or `"Hello, {}!".format(name)`.
+
 ---
 
 ## Lists `[ ]` — ordered, mutable
@@ -45,6 +63,44 @@ Common gotcha: if you `input()` a number, you have to `int()` or `float()` it yo
 - `.sort()` sorts **in place** (changes the original list, returns `None`).
 - `sorted(my_list)` returns a **new** sorted list, leaves the original untouched.
 - Calling `.remove(x)` a second time on a value that's no longer there raises `ValueError` — the item is already gone.
+
+### `.remove()` vs `.pop()`
+
+| | `.remove(value)` | `.pop(index)` |
+|---|---|---|
+| Deletes by | **value** | **position** (last item if no index given) |
+| Returns | `None` | the removed element |
+| If missing/out of range | `ValueError` | `IndexError` |
+
+```python
+frutas = ["manzana", "pera", "uva", "pera"]
+frutas.remove("pera")      # deletes only the FIRST "pera" → other stays
+ultima = frutas.pop()      # removes AND returns the last item, usable afterward
+```
+
+Use `.pop()` when you need the removed value for something (e.g. `tarea = pendientes.pop(0)`); use `.remove()` when you just want a specific value gone and don't care about it afterward. `del my_list[i]` is a third option — deletes by index like `.pop()`, but returns nothing.
+
+### List comprehensions
+
+A compact way to build a new list from a loop, in one line instead of three. Same logic as a `for` + `.append()` loop, just reordered:
+
+```python
+# long way
+squares = []
+for n in range(1, 6):
+    squares.append(n ** 2)
+
+# comprehension — [expression for item in iterable]
+squares = [n ** 2 for n in range(1, 6)]
+```
+
+Read it as *"give me `expression`, for each `item` in `iterable`"* — the "what to keep" comes before the "where it comes from," which is the opposite order from a normal loop and the reason it's confusing at first. Can also filter with an `if` at the end:
+
+```python
+short_names = [p for p in products if len(p) <= 3]
+```
+
+Only reach for this when actually **building a new list**; if the loop does something else (assign to a dict, call `input()`, etc.), a normal `for` loop is the right tool, not a comprehension.
 
 ## Dictionaries `{ key: value }` — key-based, mutable
 
