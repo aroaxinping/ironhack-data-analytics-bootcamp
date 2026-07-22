@@ -99,21 +99,45 @@ greet("Aroa")   # calling it
 - `def` starts the definition. The indented block underneath is the function body.
 - Values passed in (`name`) are called **parameters** (in the definition) or **arguments** (at call time).
 
-### `return` vs `print`
+### Defining ≠ running
 
-This is the classic beginner trip-up:
+A `def` block is just a stored recipe — nothing inside it executes until the function is actually **called**. That means a parameter's default value, or anything referencing a variable, doesn't need that variable to exist yet at definition time:
 
 ```python
-def add(a, b):
-    return a + b       # gives the result back to whoever called it
+def say_hello(name="Aroa"):    # just defines the recipe — doesn't run yet
+    print(f"Hello {name}")
 
-result = add(2, 3)     # result = 5, usable elsewhere
-print(result)
+user_name = "Marc"             # must exist BEFORE the call below (top-to-bottom order)
+say_hello(user_name)           # only NOW does the function body actually run
 ```
 
-- `print()` just displays something on screen — the function still returns `None`.
-- `return` actually hands the value back so you can store it in a variable, pass it to another function, etc.
+Passing `"Marc"` as an argument is different from using `input()` — an argument is a value *you* already chose in the code; `input()` is for asking the *person running the program* for a value while it's running. They can be combined (`say_hello(input("Name: "))`), but they're separate mechanisms.
+
+### `return` vs `print` — output vs return value
+
+This is the classic beginner trip-up, and the two words aren't interchangeable:
+
+- **Output** = whatever gets displayed on screen, via `print()`. Purely visual, not reusable.
+- **Return value** = what the function hands back via `return`, to whoever called it — storable in a variable, usable in further code.
+
+```python
+def version_a(a, b):
+    print(a + b)          # only outputs — nothing returned
+
+def version_b(a, b):
+    return a + b          # only returns — nothing printed
+
+x = version_a(2, 3)   # prints "5" on screen
+print(x)              # None  ← version_a never used `return`
+
+y = version_b(2, 3)   # nothing appears on screen
+print(y)              # 5     ← usable, because it was returned
+```
+
+**The test:** can you *do something* with what the function gave you afterward (`result = my_func()`, then use `result`)? That only works if the function used `return` — otherwise `result` is just `None`.
+
 - A function with no `return` statement implicitly returns `None`.
+- Keeping a function's job to "compute and return" (no `print()` inside it) makes it reusable anywhere — not tied to always printing to a console. That's why `count_words()` only returns; the `print()` happens outside it, at the call site.
 
 ### Default parameter values
 
@@ -125,7 +149,39 @@ greet("Aroa")                # Hello, Aroa!
 greet("Aroa", "Hi")           # Hi, Aroa!
 ```
 
-Default values let you call the function with fewer arguments — Python fills in the rest.
+Default values let you call the function with fewer arguments — Python fills in the rest. Not "hardcoding" — you can always override the default by passing your own argument.
+
+### Type hints (optional — not enforced)
+
+```python
+def add(a: int, b: int) -> int:
+    return a + b
+```
+
+`: int` and `-> int` are **type hints** — pure documentation for humans and tools (VS Code, mypy), not a rule Python checks. This runs with zero errors despite lying about the return type:
+
+```python
+def add(a, b) -> int:
+    return "surprise!"    # no error — hints aren't enforced
+
+print(add(2, 3))   # surprise!
+```
+
+Not required for these labs — plain `def function_name(params):` (no hints) is completely standard and what I've been using.
+
+### `isinstance()` vs `type()`
+
+- `type(x)` **tells you** what type something is (returns the type itself).
+- `isinstance(x, int)` **asks a yes/no question** — returns `True`/`False` — so it's meant for branching (`if isinstance(...)`), not for "finding out."
+
+```python
+type(5)               # <class 'int'>
+isinstance(5, int)    # True
+
+isinstance(5, (int, float))   # True — check several types at once with a tuple
+```
+
+Useful for validating a value before using it, e.g. `if not isinstance(quantity, int): print("invalid")`.
 
 ### Scope (local vs global)
 
