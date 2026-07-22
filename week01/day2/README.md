@@ -81,6 +81,43 @@ for num in range(10):
 
 **`for` vs `while`, when to use which:** if you know how many times / what you're iterating over → `for`. If you're waiting for a condition to change (and don't know how many loops that'll take) → `while`.
 
+### Class exercise — even or odd (solved live, in groups)
+
+In-class group exercise, ~10 minutes: prompt the user for a series of numbers (unknown count), store them in a list, then say which ones are even or odd.
+
+```python
+numbers = []
+
+while True:
+    entry = input("Enter a number (or type 'done' to finish): ")
+    if entry.lower() == "done":
+        break
+    numbers.append(int(entry))
+
+print("Numbers entered:", numbers)
+
+for num in numbers:
+    if num % 2 == 0:
+        print(f"{num} is even")
+    else:
+        print(f"{num} is odd")
+```
+
+- Two separate loops, one job each: the `while` loop only *collects* (doesn't judge the numbers yet); the `for` loop only *classifies*, once the full list is known.
+- `"done"` is a **sentinel value** — a value the user types that means "stop," picked because it can never be confused with an actual number.
+- `%` (modulo) returns the remainder of a division. Any whole number `% 2` is either `0` (even) or `1` (odd) — that's the entire logic behind the classification, no need for `elif`, since a number can't be anything else.
+- A professor-suggested alternative uses a `condition` flag instead of `break`:
+  ```python
+  condition = True
+  while condition:
+      entry = input("Enter a number (or type 'done' to finish): ")
+      if entry.lower() == "done":
+          condition = False
+      else:
+          numbers.append(int(entry))
+  ```
+  Both versions are equally correct — `break` works fine in `while` loops too, that's not `for`-only. The flag version just makes the stopping condition visible on the `while` line itself instead of inside the loop body; it's a style/readability choice, not a rule.
+
 ---
 
 ## Functions
