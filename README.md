@@ -182,6 +182,7 @@ Workflow for each lab:
 | Flow Control | [week01/day2](week01/day2/lab-python-flow-control.ipynb) | [lab-python-flow-control](https://github.com/aroaxinping/lab-python-flow-control) |
 | Functions | [week01/day2](week01/day2/lab-python-functions.ipynb) | [lab-python-functions](https://github.com/aroaxinping/lab-python-functions) |
 | List, Dict, Set Comprehension | [week01/day3](week01/day3/lab-python-list-comprehension.ipynb) | [lab-python-list-dict-set-comprehension](https://github.com/aroaxinping/lab-python-list-dict-set-comprehension) |
+| Error Handling | [week01/day4](week01/day4/lab-python-error-handling.ipynb) | [lab-python-error-handling](https://github.com/aroaxinping/lab-python-error-handling) |
 
 ## Bonus content
 
