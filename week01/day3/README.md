@@ -3,6 +3,9 @@
 My notes on comprehensions: a one-line way to build a list, dict, or set from
 an existing iterable, instead of writing out a loop.
 
+> Separate note: [when-to-use-list-tuple-set-dict.md](when-to-use-list-tuple-set-dict.md)
+> — the reasoning for picking a list vs tuple vs set vs dict, not just syntax.
+
 ---
 
 ## List comprehension
@@ -72,6 +75,21 @@ items; `if/else` before the `for` keeps every item but changes what it becomes.
 ```python
 new_dict = {key_expression: value_expression for item in iterable}
 ```
+
+```python
+dict_numbers = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}
+
+# the loop way
+dict_double = {}
+for key, value in dict_numbers.items():
+    dict_double[key] = value * 2
+
+# the comprehension way — same result
+dict_double = {key: value * 2 for key, value in dict_numbers.items()}
+```
+
+- Same idea as list comprehension: `key_expression` and `value_expression` can
+  reuse the original key/value (here, `key` stays the same, `value * 2` changes).
 
 ```python
 numbers = [1, 2, 3, 4, 5]
