@@ -157,29 +157,31 @@ As the bootcamp progresses, each week will be filled in with its projects and ex
 
 ## Labs
 
-The `Lab | ...` exercises referenced in the day-by-day breakdown above **don't
-live in this repo** — each one is its own fork of an
-[`data-bootcamp-v4`](https://github.com/data-bootcamp-v4) template repo.
+Solved `Lab | ...` notebooks live in this repo, inside their corresponding
+day folder — see the day-by-day breakdown above.
+
+Each lab is *also* kept as a separate fork of a
+[`data-bootcamp-v4`](https://github.com/data-bootcamp-v4) template repo, only
+because Ironhack's Student Portal requires it — it checks for an **open pull
+request against the upstream repo** to mark a lab as done, not the code
+itself. So the fork + PR is submission plumbing; this repo is the actual copy
+I read back.
 
 Workflow for each lab:
 
 1. Fork the lab's template repo (e.g. `data-bootcamp-v4/lab-python-functions`) to my account.
 2. Clone the fork locally.
 3. Solve the exercise, commit, push to `origin` (my fork).
-4. **Open a pull request from my fork back to the upstream `data-bootcamp-v4` repo.**
-5. Sync/check in the Student Portal.
+4. **Open a pull request from my fork back to the upstream `data-bootcamp-v4` repo** — easy to miss, some lab `README`s only mention `git push` and stop there.
+5. Copy the solved notebook into this repo, in the matching day folder.
+6. Sync/check in the Student Portal.
 
-> ⚠️ Step 4 is easy to miss — some lab `README`s only mention `git push` to
-> your fork and stop there. The Student Portal actually checks for an **open
-> PR against the upstream repo**, not just a pushed fork, so without it the
-> lab shows as not completed even though the code is up on GitHub.
-
-| Lab | Repo |
-|---|---|
-| Data Structures | [lab-python-data-structures](https://github.com/aroaxinping/lab-python-data-structures) |
-| Flow Control | [lab-python-flow-control](https://github.com/aroaxinping/lab-python-flow-control) |
-| Functions | [lab-python-functions](https://github.com/aroaxinping/lab-python-functions) |
-| List, Dict, Set Comprehension | [lab-python-list-dict-set-comprehension](https://github.com/aroaxinping/lab-python-list-dict-set-comprehension) |
+| Lab | Solved here | Submission PR |
+|---|---|---|
+| Data Structures | [week01/day1](week01/day1/lab-python-data-structures.ipynb) | [lab-python-data-structures](https://github.com/aroaxinping/lab-python-data-structures) |
+| Flow Control | [week01/day2](week01/day2/lab-flow-control.ipynb) | [lab-python-flow-control](https://github.com/aroaxinping/lab-python-flow-control) |
+| Functions | [week01/day2](week01/day2/lab-functions.ipynb) | [lab-python-functions](https://github.com/aroaxinping/lab-python-functions) |
+| List, Dict, Set Comprehension | [week01/day3](week01/day3/lab-list-dict-set-comprehension.ipynb) | [lab-python-list-dict-set-comprehension](https://github.com/aroaxinping/lab-python-list-dict-set-comprehension) |
 
 ## Bonus content
 
