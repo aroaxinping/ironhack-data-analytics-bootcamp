@@ -179,9 +179,9 @@ Workflow for each lab:
 | Lab | Solved here | Submission PR |
 |---|---|---|
 | Data Structures | [week01/day1](week01/day1/lab-python-data-structures.ipynb) | [lab-python-data-structures](https://github.com/aroaxinping/lab-python-data-structures) |
-| Flow Control | [week01/day2](week01/day2/lab-flow-control.ipynb) | [lab-python-flow-control](https://github.com/aroaxinping/lab-python-flow-control) |
-| Functions | [week01/day2](week01/day2/lab-functions.ipynb) | [lab-python-functions](https://github.com/aroaxinping/lab-python-functions) |
-| List, Dict, Set Comprehension | [week01/day3](week01/day3/lab-list-dict-set-comprehension.ipynb) | [lab-python-list-dict-set-comprehension](https://github.com/aroaxinping/lab-python-list-dict-set-comprehension) |
+| Flow Control | [week01/day2](week01/day2/lab-python-flow-control.ipynb) | [lab-python-flow-control](https://github.com/aroaxinping/lab-python-flow-control) |
+| Functions | [week01/day2](week01/day2/lab-python-functions.ipynb) | [lab-python-functions](https://github.com/aroaxinping/lab-python-functions) |
+| List, Dict, Set Comprehension | [week01/day3](week01/day3/lab-python-list-comprehension.ipynb) | [lab-python-list-dict-set-comprehension](https://github.com/aroaxinping/lab-python-list-dict-set-comprehension) |
 
 ## Bonus content
 
