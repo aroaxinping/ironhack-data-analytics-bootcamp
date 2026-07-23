@@ -102,6 +102,20 @@ short_names = [p for p in products if len(p) <= 3]
 
 Only reach for this when actually **building a new list**; if the loop does something else (assign to a dict, call `input()`, etc.), a normal `for` loop is the right tool, not a comprehension.
 
+**Where the word "comprehension" comes from:** not the everyday English sense ("understanding"). It's borrowed from math **set-builder notation** — `{x² : x ∈ {1,2,3}}` reads "the set of x², for each x in {1,2,3}" and was called a "set comprehension." Python reused the term for the same idea with lists. So "comprehension" here means *"the rule that defines which elements to include"* — nothing to do with comprehending/understanding.
+
+**Check for understanding:** create a new list, substituting `"e"` for every `"a"` in each word of an existing `words` list.
+
+```python
+e_words = [word.replace('a', 'e') for word in words]
+print(e_words)
+```
+
+- `word.replace('a', 'e')` — for each `word`, returns a new string with every `'a'` swapped for `'e'` (case-sensitive: a capital `'A'` is untouched).
+- The comprehension applies that `.replace()` call to every word in `words` and collects the results into `e_words`.
+- `words` itself is left unchanged — `.replace()` always returns a new string rather than modifying in place, since strings are immutable.
+- One line is the complete, correct solution here — a comprehension is meant to replace the loop *and* the `.append()` in one go, so a short one-liner isn't "missing steps," it's the whole point.
+
 ## Dictionaries `{ key: value }` — key-based, mutable
 
 - Access with `my_dict[key]` — raises `KeyError` if the key doesn't exist.
