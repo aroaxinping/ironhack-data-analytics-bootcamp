@@ -155,6 +155,32 @@ Each week has its own folder with a `README.md` summary and `day1`–`day5` subf
 
 As the bootcamp progresses, each week will be filled in with its projects and exercises.
 
+## Labs
+
+The `Lab | ...` exercises referenced in the day-by-day breakdown above **don't
+live in this repo** — each one is its own fork of an
+[`data-bootcamp-v4`](https://github.com/data-bootcamp-v4) template repo.
+
+Workflow for each lab:
+
+1. Fork the lab's template repo (e.g. `data-bootcamp-v4/lab-python-functions`) to my account.
+2. Clone the fork locally.
+3. Solve the exercise, commit, push to `origin` (my fork).
+4. **Open a pull request from my fork back to the upstream `data-bootcamp-v4` repo.**
+5. Sync/check in the Student Portal.
+
+> ⚠️ Step 4 is easy to miss — some lab `README`s only mention `git push` to
+> your fork and stop there. The Student Portal actually checks for an **open
+> PR against the upstream repo**, not just a pushed fork, so without it the
+> lab shows as not completed even though the code is up on GitHub.
+
+| Lab | Repo |
+|---|---|
+| Data Structures | [lab-python-data-structures](https://github.com/aroaxinping/lab-python-data-structures) |
+| Flow Control | [lab-python-flow-control](https://github.com/aroaxinping/lab-python-flow-control) |
+| Functions | [lab-python-functions](https://github.com/aroaxinping/lab-python-functions) |
+| List, Dict, Set Comprehension | [lab-python-list-dict-set-comprehension](https://github.com/aroaxinping/lab-python-list-dict-set-comprehension) |
+
 ## Bonus content
 
 Optional extra modules outside the 9 core weeks.
