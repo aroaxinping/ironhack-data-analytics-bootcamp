@@ -1,9 +1,9 @@
 # Data Structures — Notes
 
-> These are my own summary notes from the Day 1/2 lesson. The original class
-> material (`1.1_data_structures.ipynb`) belongs to Ironhack's
-> [data-bootcamp-v4/lessons](https://github.com/data-bootcamp-v4/lessons)
-> repo — not reproduced here, just my takeaways in my own words.
+> These are my own summary notes from the Day 1/2 lesson. The filled-in class
+> notebook is at [`1.1_data_structures.ipynb`](1.1_data_structures.ipynb) —
+> same base material as Ironhack's public
+> [data-bootcamp-v4/lessons](https://github.com/data-bootcamp-v4/lessons) repo.
 
 ---
 
