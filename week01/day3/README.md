@@ -138,7 +138,7 @@ solution from the functions lab and rewrote each piece with comprehension:
   products **and** filters out any that hit 0, so it disappears from the
   inventory instead of printing as `0`.
 
-Solved here: [lab-list-dict-set-comprehension.ipynb](lab-list-dict-set-comprehension.ipynb)
+Solved here: [lab-python-list-comprehension.ipynb](lab-python-list-comprehension.ipynb)
 (submitted via PR from [lab-python-list-dict-set-comprehension](https://github.com/aroaxinping/lab-python-list-dict-set-comprehension), required for the Student Portal to mark it as done)
 
 ---
