@@ -202,3 +202,27 @@ logic), but reach for the specialized method first when one exists.
 | Filter | `list(filter(function, iterable))` — function must return `True`/`False` |
 | Filter, lambda | `list(filter(lambda x: ..., iterable))` |
 | Reduce | `from functools import reduce` then `reduce(function, iterable)` |
+
+---
+
+## Lab | Error Handling
+
+Took the comprehension-lab solution (Managing Customer Orders) and wrapped
+the input-taking functions in `try/except` retry loops so the program can't
+crash on bad input:
+
+- `initialize_inventory` — retries per product if the quantity is negative or
+  not a number. Can't stay a one-line dict comprehension anymore, since each
+  product needs its own retry loop.
+- `calculate_total_price` — same retry pattern, for prices.
+- `get_customer_orders` — now takes `inventory` as a parameter, so it can
+  reject product names that don't exist or have zero stock, on top of
+  validating the order count is a non-negative number.
+
+**Key idea:** `int()`/`float()` already raise `ValueError` on non-numeric
+input on their own — the `if quantity < 0: raise ValueError(...)` just adds
+a *second*, explicit reason to land in the same `except` block, so both
+"not a number" and "a negative number" get caught by one `except ValueError`.
+
+Solved here: [lab-python-error-handling.ipynb](lab-python-error-handling.ipynb)
+(submitted via PR from [lab-python-error-handling](https://github.com/aroaxinping/lab-python-error-handling), required for the Student Portal to mark it as done)
