@@ -3,6 +3,11 @@
 My notes on lambda functions and the three higher-order functions built on
 top of them: `map`, `filter`, `reduce`.
 
+> **Note:** Error handling (`1.06`, below) was originally planned for Day 4,
+> but we were running behind schedule in class and it actually got covered
+> on Day 5 instead. Keeping it filed under Day 4 here since that's what the
+> official planning/syllabus has it as.
+
 ---
 
 ## Lambda functions
