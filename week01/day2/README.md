@@ -267,3 +267,23 @@ print(f"Word count: {word_count}")
 | Do nothing (placeholder) | `pass` |
 | Define a function | `def` |
 | Hand back a value | `return` |
+
+---
+
+## Lab | Flow Control
+
+Managing Customer Orders, rewritten with a `while True` + "add another
+product? (yes/no)" loop instead of a fixed `for _ in range(3)` — the number
+of orders is however many the user wants, not a hardcoded count.
+
+Solved here: [lab-python-flow-control.ipynb](lab-python-flow-control.ipynb)
+(submitted via PR from [lab-python-flow-control](https://github.com/aroaxinping/lab-python-flow-control), required for the Student Portal to mark it as done)
+
+## Lab | Functions
+
+Same program again, this time broken into six functions — each one takes
+what it needs as a parameter and returns what the caller needs, no globals
+touched inside any function body.
+
+Solved here: [lab-python-functions.ipynb](lab-python-functions.ipynb)
+(submitted via PR from [lab-python-functions](https://github.com/aroaxinping/lab-python-functions), required for the Student Portal to mark it as done)
