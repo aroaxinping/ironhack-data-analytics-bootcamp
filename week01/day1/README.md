@@ -164,6 +164,13 @@ git pull <branch>         # download history AND update my files
 > topic was covered on Day 2 instead. Keeping the notes here since it was
 > planned as Day 1 content.
 
+Quick summary below — for the deeper write-up (types, operators, string
+formatting, dict/set/tuple methods, nested structures) see
+[data-structures-notes.md](data-structures-notes.md), and
+[data-structures-quiz.md](data-structures-quiz.md) for 10 practice questions
+with explanations. Solved class notebook:
+[1.1_data_structures.ipynb](1.1_data_structures.ipynb).
+
 Four built-in ways to store collections of data:
 
 | Structure | Example | Ordered | Mutable | Notes |
@@ -176,5 +183,16 @@ Four built-in ways to store collections of data:
 - Access items by **index** (`my_list[0]`) and ranges by **slicing** (`my_list[1:3]`).
 - Each type has its own **built-in methods** (e.g. `.append()` for lists,
   `.keys()` for dicts).
+
+---
+
+## Lab | Data Structures
+
+Managing Customer Orders: track inventory in a dict, collect orders from the
+user into a set, and print order statistics — the base version everything in
+later labs (functions, comprehension, error handling) keeps building on.
+
+Solved here: [lab-python-data-structures.ipynb](lab-python-data-structures.ipynb)
+(submitted via PR from [lab-python-data-structures](https://github.com/aroaxinping/lab-python-data-structures), required for the Student Portal to mark it as done)
 
 This lesson is a code-along in a Jupyter notebook (`1.1_data_structures.ipynb`).
