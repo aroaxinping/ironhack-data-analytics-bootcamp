@@ -205,6 +205,81 @@ logic), but reach for the specialized method first when one exists.
 
 ---
 
+## Error handling
+
+An error (exception) stops the program right where it happens — nothing
+after that line runs, unless it's caught.
+
+```python
+print("Before the error")
+print(1 / 0)   # ZeroDivisionError stops execution right here
+print("After the error")   # never runs
+```
+
+### Common exception types
+
+| Error | Happens when |
+|---|---|
+| `AttributeError` | calling a method/attribute an object doesn't have (e.g. `.append()` on an `int`) |
+| `IndexError` | indexing a list/string past its length |
+| `KeyError` | looking up a dict key that doesn't exist |
+| `TypeError` | mixing incompatible types (e.g. `"5" + 5`) |
+| `ValueError` | right type, invalid value (e.g. `int("abc")`) |
+| `ZeroDivisionError` | dividing by zero |
+
+### try / except / else / finally
+
+```python
+try:
+    number = int(input("Enter a number: "))
+    result = 10 / number
+except ZeroDivisionError:
+    print("Can't divide by zero.")
+except ValueError:
+    print("That's not a valid number.")
+else:
+    print(f"Result: {result}")   # only runs if the try block raised nothing
+finally:
+    print("Operation complete.")   # always runs, error or not
+```
+
+- `try` — the code that might fail.
+- `except SpecificError` — only catches that type; stack multiple `except`
+  clauses to handle different error types differently.
+- `except:` with no type — catches *anything*, but doesn't tell you what
+  went wrong. Use sparingly, prefer naming the specific exception.
+- `except ... as error` — saves the exception object itself in `error`, so
+  you can read its message (`print(error)`) instead of just knowing *that*
+  something failed.
+- `else` — runs only if nothing raised.
+- `finally` — always runs, whether an exception happened or not. Typical use:
+  cleanup code (closing a file, releasing a resource).
+
+### Raising your own errors
+
+```python
+def set_age(age):
+    if age < 0:
+        raise ValueError("Age cannot be negative.")
+    return age
+```
+
+`raise` triggers an exception on purpose — same as any built-in error, it
+stops the program unless something catches it with `try/except`.
+
+### Extra: `assert`
+
+```python
+assert boolean_condition, "message if it's False"
+```
+
+A one-line sanity check: does nothing if the condition is `True`, raises
+`AssertionError` with the given message if it's `False`. Meant for catching
+bugs during development (checking an assumption always holds), not for
+handling expected user-input errors — that's what `try/except` is for.
+
+---
+
 ## Lab | Error Handling
 
 Took the comprehension-lab solution (Managing Customer Orders) and wrapped
