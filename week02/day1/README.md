@@ -117,6 +117,62 @@ means that when they say "array." Every actual array (fast element-wise
 math, `.shape`, multi-dimensional data) requires `import numpy` first;
 without it, a `list` is the only option.
 
+### Why pandas exists: NumPy's two limitations for real (mixed) data
+
+Same data — a tiny "people" table — built as a NumPy array vs. a pandas
+DataFrame, side by side:
+
+```python
+import numpy as np
+
+table = np.array([[1, "Ana", 25.5], [2, "Marc", 30.0]])
+print(table)
+print(table.dtype)
+```
+```
+[['1' 'Ana' '25.5']
+ ['2' 'Marc' '30.0']]
+<U32
+```
+👆 **Everything got forced into one type** — even `1` and `25.5` became the
+*strings* `'1'` and `'25.5'`, because a NumPy array must be a single dtype,
+period. And there's **no column names** — just position `[0]`, `[1]`, `[2]`.
+
+```python
+import pandas as pd
+
+df = pd.DataFrame({"id": [1, 2], "name": ["Ana", "Marc"], "score": [25.5, 30.0]})
+print(df)
+print(df.dtypes)
+```
+```
+   id  name  score
+0   1   Ana   25.5
+1   2  Marc   30.0
+
+id         int64
+name      object
+score    float64
+```
+👆 Same numbers, same strings — but now `id` stayed a real integer, `score`
+stayed a real float, and every column has an actual **name** instead of a
+bare position. `0`/`1` on the left is a named row index too, not just "row
+zero, row one" implicitly.
+
+| | NumPy array | Pandas DataFrame |
+|---|---|---|
+| Data type | **one dtype for the whole array** | **each column keeps its own dtype** |
+| Row/column identity | position only (`arr[0]`, `arr[1,2]`) | **named** columns + a **named** row index |
+| Why | built purely for fast math on uniform numbers | built for real, messy, mixed-type tables |
+
+**The relationship in one sentence:** a DataFrame isn't one NumPy array
+pretending to have labels — it's closer to **a separate NumPy array per
+column**, glued together side by side with names attached. Each column is
+still internally one uniform dtype (NumPy's rule still applies *within* a
+column), but different columns are free to differ from each other — which
+is exactly what a real dataset (ages as ints, names as strings, prices as
+floats, all in one table) actually needs.
+
 ---
 
 ## Series vs DataFrame
