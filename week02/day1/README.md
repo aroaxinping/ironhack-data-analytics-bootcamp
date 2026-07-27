@@ -301,6 +301,47 @@ titanic_df.iloc[0]             # a row, by position
 titanic_df.loc[df["Age"] > 30] # rows matching a condition — boolean filtering
 ```
 
+**`.loc` vs `.iloc`, and why the names are what they are:**
+
+- `.loc` = **loc**ation, specifically **label**-based — "give me the row/column
+  with this exact label," errors if that label doesn't exist.
+- `.iloc` = **i**nteger **loc**ation — "give me whatever is physically in this
+  position," `0`-based, completely ignoring what the labels actually say.
+
+Boolean filtering (`.loc[df["Age"] > 30]`) isn't a contradiction of "label
+based" — a condition is really just another way of specifying *which
+labels* to grab (every label where it's `True`), instead of listing them
+one by one.
+
+**Explicit vs implicit index** — the concept underneath why `.loc`/`.iloc`
+are two different things at all:
+
+- **Explicit index** — the labels actually assigned (could be `0,1,2`,
+  could be `"a","b","c"`, could be dates). `.loc` reads this.
+- **Implicit index** — the automatic background position count every
+  sequence has regardless, `0,1,2,3...`, ignoring what the explicit labels
+  say. `.iloc` reads this.
+
+```python
+s = pd.Series([10, 20, 30], index=["a", "b", "c"])
+
+s.loc["a"]    # 10  — explicit label "a"
+s.iloc[0]     # 10  — implicit position 0 (there's no "0" in the index at all!)
+```
+
+**Why `.loc[0]` and `.iloc[0]` look interchangeable at first:** with the
+default index, pandas sets the explicit labels to `0,1,2,3...` — identical
+to the implicit position count, purely by coincidence. They only visibly
+diverge once the explicit index becomes something else (custom labels,
+dates), or after filtering rows so the remaining labels no longer match
+sequential position:
+
+```python
+filtered = titanic_df[titanic_df["Age"] > 60]
+filtered.iloc[0]   # the 1st row IN THIS NEW TABLE, whatever it's labeled
+filtered.loc[0]    # ❌ KeyError if row "0" got filtered out — the label must still exist
+```
+
 ### Aggregation
 
 Methods like `.max()`, `.min()`, `.mean()`, `.sum()` work column-wise
