@@ -181,6 +181,35 @@ Pandas builds on top of NumPy arrays and adds labels: a **Series** is a
 1D labeled array (think: one column), a **DataFrame** is a 2D labeled table
 (think: the whole spreadsheet — a collection of Series sharing an index).
 
+### A row is also a Series, not just a column
+
+"Series" just means **a single 1D list of values with labels attached** —
+nothing more specific than that. A DataFrame is 2D; slice a 1D piece out of
+it in *either* direction and pandas hands you a Series:
+
+```python
+df = pd.DataFrame({"id": [1, 2], "name": ["Ana", "Marc"], "score": [25.5, 30.0]})
+
+df["name"]    # slice DOWN a column  → Series
+df.loc[0]     # slice SIDEWAYS a row → also a Series
+```
+
+- `df["name"]` → index = the row labels (`0, 1`)
+- `df.loc[0]` → index = the column names (`id, name, score`)
+
+**Why this doesn't contradict "a DataFrame is a collection of Series"**
+(the usual diagram/definition): that statement is about how a DataFrame is
+*built* — structurally, each **column** already **is** a Series, and the
+DataFrame is those column-Series glued side by side sharing one index.
+A **row**-Series isn't a pre-existing building block sitting inside the
+DataFrame the same way — pandas *constructs* it fresh, on the spot, by
+grabbing one value from each column, whenever you ask for a row (`.loc[]`).
+
+So: columns are Series **by construction** (that's what the DataFrame is
+made of); rows become Series **by conversion**, the moment you slice one
+out. Both end up being the exact same *type* of object, just arrived at
+differently.
+
 ```python
 import pandas as pd
 
