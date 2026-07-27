@@ -83,8 +83,39 @@ arr * 2   # [2, 4, 6, 8, 10] — element-wise, unlike a Python list
   a[a > 5]      # filter: only the elements greater than 5, flattened
   ```
 
-- `.shape` (rows, columns), `.ndim` (number of dimensions), `.size` (total
-  element count) are the three attributes worth knowing first.
+### `.shape`, `.ndim`, `.size`
+
+```python
+a = np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12],[-2,-5,-6,3]])
+
+a.shape   # (4, 4)  — (rows, columns)
+a.ndim    # 2       — number of dimensions
+a.size    # 16      — total element count
+```
+
+`.shape` isn't an independent value someone set — NumPy computes it
+automatically by inspecting the real structure of the array the moment it's
+created, and keeps it in sync if the array changes (e.g. after `.reshape()`).
+So `a.shape[0]` (rows) and `a.shape[1]` (columns) are just reading positions
+out of that live tuple, which is itself always an accurate description of
+`a`'s real shape — there's no scenario where they drift out of sync.
+
+`.shape` generalizes beyond 2D too — it always returns one number per
+dimension, "rows and columns" is just what those two numbers mean
+specifically in the 2D case:
+
+```python
+np.array([1, 2, 3, 4]).shape                 # (4,)      — 1D, just a count
+np.array([[1,2,3],[4,5,6]]).shape             # (2, 3)    — 2D, rows/columns
+np.array([[[1,2],[3,4]],[[5,6],[7,8]]]).shape # (2, 2, 2) — 3D, no simple row/col label anymore
+```
+
+**Arrays don't exist without NumPy.** Python's only built-in general
+container is the `list` — there's a rarely-used built-in `array` module,
+but it has no math operations and no multi-dimensional support, so nobody
+means that when they say "array." Every actual array (fast element-wise
+math, `.shape`, multi-dimensional data) requires `import numpy` first;
+without it, a `list` is the only option.
 
 ---
 
