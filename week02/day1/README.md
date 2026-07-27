@@ -58,6 +58,36 @@ minimization is a legal requirement, not just tidiness.
 
 ---
 
+## Short intro to NumPy
+
+Pandas is built on top of NumPy, so a quick look at it first.
+
+```python
+import numpy as np
+
+arr = np.array([1, 2, 3, 4, 5])
+arr * 2   # [2, 4, 6, 8, 10] — element-wise, unlike a Python list
+
+[1, 2, 3, 4, 5] * 2   # a plain list just repeats itself: [1,2,3,4,5,1,2,3,4,5]
+```
+
+- All elements in a NumPy array must share the **same data type** — mix
+  types (`["Hello", 1, False]`) and NumPy casts everything to a common one
+  (here, all become strings). Python lists don't have this restriction.
+- 2D arrays work like a table with no column/row names — slicing uses
+  `array[row_start:row_end, col_start:col_end]`:
+
+  ```python
+  a = np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12],[-2,-5,-6,3]])
+  a[1:3, 1:3]   # rows 1-2, columns 1-2
+  a[a > 5]      # filter: only the elements greater than 5, flattened
+  ```
+
+- `.shape` (rows, columns), `.ndim` (number of dimensions), `.size` (total
+  element count) are the three attributes worth knowing first.
+
+---
+
 ## Series vs DataFrame
 
 Pandas builds on top of NumPy arrays and adds labels: a **Series** is a
@@ -87,6 +117,18 @@ s[1]        # by pandas' internal numeric position
 s["d"]      # by the index label
 s[1:]       # slicing works like a list
 s[::-1]     # reversed
+```
+
+A Series works a lot like a Python dict — `.index` gives the keys,
+`.values` gives the raw data as a NumPy array, and it's iterable the same
+way:
+
+```python
+for key in s.keys():
+    print(key)
+
+for key, value in s.items():   # (index, value) pairs, same idea as dict.items()
+    print(key, value)
 ```
 
 ### Useful Series methods
@@ -148,15 +190,24 @@ titanic_df.loc[df["Age"] > 30] # rows matching a condition — boolean filtering
 Methods like `.max()`, `.min()`, `.mean()`, `.sum()` work column-wise
 across the whole DataFrame, or on a single column/Series the same way.
 
+### Sorting a DataFrame
+
+```python
+titanic_df.sort_values(by=["Pclass", "Age"], ascending=[False, True])
+```
+
+Multiple columns at once: sorts by the first, and only uses the second to
+break ties within equal values of the first. Each column gets its own
+ascending/descending flag, matched up by position.
+
 ---
 
 ## Check for understanding — solved in [2.1_pandas.ipynb](2.1_pandas.ipynb)
 
-- Get the Titanic `Embarked` column as a Series, inspect it, append a value,
-  and find the most common type via `value_counts().sort_values()`.
-- Select `Sex` and `Fare` from `titanic_df`, count unique `Sex` values, and
-  get a full statistical summary with `describe(include="all")` (not just
-  the numeric columns).
+Using `titanic_df`: select `Sex` and `Fare`, count how many distinct `Sex`
+values there are and how many of each, then a full statistical summary with
+`describe(include="all")` — the `include="all"` matters, plain `describe()`
+only covers numeric columns and would silently skip `Sex` itself.
 
 ---
 
