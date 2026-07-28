@@ -19,6 +19,22 @@ df.isna().sum()         # per column: how many nulls?
 df.isna().sum(axis=1)   # per row instead — how many nulls does each row have?
 ```
 
+`isnull()` is just an **alias** of `isna()` — same method, same output,
+either name works:
+
+```python
+df.isnull()             # identical to df.isna()
+df.isnull().sum()       # identical to df.isna().sum()
+```
+
+`notnull()` is the **inverse** — `True` where a value *is* present, instead
+of where it's missing:
+
+```python
+df.notnull()            # True where NOT null, False where null
+df.notnull().sum()      # per column: how many non-null values
+```
+
 ### Dropping vs filling
 
 ```python
