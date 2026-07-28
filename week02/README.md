@@ -1,5 +1,8 @@
 # Week 2 — Data Wrangling & Retrieval
 
+> General reference, not tied to one day: [data-cleaning-checklist.md](data-cleaning-checklist.md)
+> — a step-by-step order of operations for cleaning any dataset.
+
 ## [Day 1](day1) — Data wrangling, GDPR & intro to Pandas
 - Introduction to Data Wrangling
 - GDPR - Introduction to Data Privacy
