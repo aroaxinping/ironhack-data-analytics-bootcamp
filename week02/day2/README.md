@@ -84,7 +84,19 @@ NaN    → also 90.0 (still the last valid value — hasn't found a new one yet)
 78.0   ← a real value again; this becomes the new "last valid value" from here on
 ```
 
-**What `subset` actually restricts:** which columns `dropna()` is allowed
+**What the word "subset" actually means, generally:** a smaller group taken
+from a bigger group, where everything in the smaller group also exists in
+the bigger one — a plain math/set-theory word, not something pandas
+invented (same underlying idea as `.union()`/`.intersection()` from the Day 1
+sets notes).
+
+```
+Full set:     {1, 2, 3, 4, 5}
+A subset:     {2, 4}          ← every item here also exists in the full set
+Not a subset: {2, 6}          ← 6 isn't in the original set, doesn't count
+```
+
+**What `subset` actually restricts** *(in `dropna()` specifically)*: which columns `dropna()` is allowed
 to *check*, not what it's looking for (still just nulls either way).
 Without `subset`, a row gets dropped if **any** column has a null. With
 `subset=["Name"]`, only a null `Name` gets a row dropped — a null
