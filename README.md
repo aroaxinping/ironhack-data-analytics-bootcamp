@@ -184,6 +184,7 @@ Workflow for each lab:
 | List, Dict, Set Comprehension | [week01/day3](week01/day3/lab-python-list-comprehension.ipynb) | [lab-python-list-dict-set-comprehension](https://github.com/aroaxinping/lab-python-list-dict-set-comprehension) |
 | Error Handling | [week01/day4](week01/day4/lab-python-error-handling.ipynb) | [lab-python-error-handling](https://github.com/aroaxinping/lab-python-error-handling) |
 | Pandas | [week02/day1](week02/day1/lab-dw-pandas.ipynb) | [lab-dw-pandas](https://github.com/aroaxinping/lab-dw-pandas) |
+| Data Cleaning and Formatting | [week02/day2](week02/day2/lab-dw-data-cleaning-and-formatting.ipynb) | [lab-dw-data-cleaning-and-formatting](https://github.com/aroaxinping/lab-dw-data-cleaning-and-formatting) |
 
 ## Bonus content
 
