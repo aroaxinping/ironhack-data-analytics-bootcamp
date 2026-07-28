@@ -35,6 +35,17 @@ df.notnull()            # True where NOT null, False where null
 df.notnull().sum()      # per column: how many non-null values
 ```
 
+**Which one to actually use — is either faster?** No meaningful difference.
+Looking at pandas' own source, `isnull()` is defined as a one-line wrapper
+that just calls `isna()` internally (`notnull()` does the same for
+`notna()`) — so `isna()`/`notna()` are marginally more direct (one function
+call instead of two), but that's a nanoseconds-level difference, unmeasurable
+in real use and never worth choosing one over the other for. `isna()` /
+`notna()` are the names used throughout the current pandas docs, so that's
+what I default to — `isnull()`/`notnull()` are just there for people coming
+from R (`is.null`) or older pandas code, not a different or "legacy-slower"
+implementation.
+
 ### Dropping vs filling
 
 ```python
