@@ -21,40 +21,40 @@ apply to any DataFrame.
 
 ```
 .
-├── 1. Explorar                    # entender qué hay antes de tocar nada
+├── 1. Explore                     # understand what's there before touching anything
 │   ├── shape, head(), tail()
-│   ├── info()                     # dtypes + nulos de un vistazo
+│   ├── info()                     # dtypes + nulls at a glance
 │   ├── describe(include="all")
-│   └── isna().all(axis=1).sum()   # ¿hay filas vacías de relleno?
+│   └── isna().all(axis=1).sum()   # any fully-empty padding rows?
 │
-├── 2. Nombres de columnas         # todo lo demás depende de que esto esté bien
+├── 2. Column names                # everything else depends on these being right
 │   └── .str.lower().str.replace(" ", "_")
 │
-├── 3. Filas rotas
-│   └── dropna(subset=["id"])      # sin identificador real, no es un dato, es basura
+├── 3. Broken rows
+│   └── dropna(subset=["id"])      # no real identifier -> not data, just junk
 │
-├── 4. Valores inconsistentes
-│   ├── unique()                   # detectar cada variante/typo
-│   └── replace({...})             # unificar categorías
+├── 4. Inconsistent values
+│   ├── unique()                   # spot every variant/typo
+│   └── replace({...})             # collapse them into one category
 │
-├── 5. Tipos de dato
-│   ├── quitar símbolos ("%", "$")
+├── 5. Data types
+│   ├── strip symbols ("%", "$")
 │   ├── to_numeric(errors="coerce")
 │   └── to_datetime(errors="coerce")
 │
-├── 6. Nulos de verdad             # ahora sí cuentan lo real, ya no antes
+├── 6. Real nulls                  # only now do the counts mean something
 │   ├── isna().sum()
-│   └── fillna() / dropna()        # según el significado de cada columna
+│   └── fillna() / dropna()        # depends on what the column means
 │
-├── 7. Duplicados
+├── 7. Duplicates
 │   ├── duplicated().sum()
 │   ├── drop_duplicates()
 │   └── reset_index(drop=True)
 │
-├── 8. Tipos finales
-│   └── astype(int)                # ya con todo limpio
+├── 8. Final types
+│   └── astype(int)                # only once everything is actually clean
 │
-└── 9. Verificar y guardar
+└── 9. Verify and save
     ├── isna().sum().sum() == 0
     ├── duplicated().sum() == 0
     └── to_csv()
