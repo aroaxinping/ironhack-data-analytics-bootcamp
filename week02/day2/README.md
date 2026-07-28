@@ -70,6 +70,68 @@ df["Age"].bfill()                  # backward-fill: copy the next valid value up
   each introduce a different kind of bias, and which one is defensible
   depends on the actual business question, not a rule of thumb.
 
+**What `ffill()`/`bfill()` actually grab:** not a fixed value you choose —
+they copy whatever the **nearest valid value in that direction** happens to
+be. `ffill()` needs no argument for this reason: there's nothing constant
+to type in, since the fill value is different depending on *where* the gap
+is.
+
+```
+Score column:
+90.0
+NaN    → filled with 90.0 (the last valid value above it)
+NaN    → also 90.0 (still the last valid value — hasn't found a new one yet)
+78.0   ← a real value again; this becomes the new "last valid value" from here on
+```
+
+**What `subset` actually restricts:** which columns `dropna()` is allowed
+to *check*, not what it's looking for (still just nulls either way).
+Without `subset`, a row gets dropped if **any** column has a null. With
+`subset=["Name"]`, only a null `Name` gets a row dropped — a null
+elsewhere (like `Score`, if you're about to `ffill()` it anyway) is ignored
+for this decision. This is how you separate "a missing X makes this row
+unusable" (drop it) from "a missing Y is just an incomplete value" (fill it
+instead) — e.g. a student with no name is broken data, a student with a
+momentarily missing score isn't.
+
+---
+
+## `SettingWithCopyWarning`
+
+```
+SettingWithCopyWarning:
+A value is trying to be set on a copy of a DataFrame from a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+```
+
+Shows up after reassigning a DataFrame from a filtered/sliced result (e.g.
+`df = df.dropna(subset=["Name"])`) and then modifying a column on it
+afterward. Pandas can't always tell whether that reassigned `df` is a fully
+independent DataFrame or still secretly a *view* into the original one —
+so it warns rather than risk silently editing the wrong thing.
+
+**Fix (root cause) — make the independence explicit right where it starts:**
+
+```python
+df_students = df_students.dropna(subset=["Name"]).copy()
+```
+
+`.copy()` tells pandas unambiguously "this is a new, separate DataFrame
+now" — every line after this stops triggering the warning, instead of
+needing a workaround on each individual line.
+
+**Fix (pandas' own suggestion) — target the exact cell with `.loc`:**
+
+```python
+df_students.loc[:, "Score"] = df_students["Score"].ffill()
+```
+
+> **Note:** the professor mentioned filtering/selecting with conditions
+> *inside* `.loc` (like `.loc[df["Age"] > 30, "Score"]`) is coming up
+> properly in a later class — deliberately not going deeper into that
+> combination yet, to avoid overcomplicating things before it's actually
+> taught.
+
 ---
 
 ## Duplicates
