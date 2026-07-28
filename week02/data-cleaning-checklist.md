@@ -17,6 +17,49 @@ apply to any DataFrame.
 - Verify at the very end, not after each step — a check halfway through
   can pass even though an earlier step introduced a problem two steps back.
 
+## At a glance
+
+```
+.
+├── 1. Explorar                    # entender qué hay antes de tocar nada
+│   ├── shape, head(), tail()
+│   ├── info()                     # dtypes + nulos de un vistazo
+│   ├── describe(include="all")
+│   └── isna().all(axis=1).sum()   # ¿hay filas vacías de relleno?
+│
+├── 2. Nombres de columnas         # todo lo demás depende de que esto esté bien
+│   └── .str.lower().str.replace(" ", "_")
+│
+├── 3. Filas rotas
+│   └── dropna(subset=["id"])      # sin identificador real, no es un dato, es basura
+│
+├── 4. Valores inconsistentes
+│   ├── unique()                   # detectar cada variante/typo
+│   └── replace({...})             # unificar categorías
+│
+├── 5. Tipos de dato
+│   ├── quitar símbolos ("%", "$")
+│   ├── to_numeric(errors="coerce")
+│   └── to_datetime(errors="coerce")
+│
+├── 6. Nulos de verdad             # ahora sí cuentan lo real, ya no antes
+│   ├── isna().sum()
+│   └── fillna() / dropna()        # según el significado de cada columna
+│
+├── 7. Duplicados
+│   ├── duplicated().sum()
+│   ├── drop_duplicates()
+│   └── reset_index(drop=True)
+│
+├── 8. Tipos finales
+│   └── astype(int)                # ya con todo limpio
+│
+└── 9. Verificar y guardar
+    ├── isna().sum().sum() == 0
+    ├── duplicated().sum() == 0
+    └── to_csv()
+```
+
 ---
 
 ## 1. Explore first
