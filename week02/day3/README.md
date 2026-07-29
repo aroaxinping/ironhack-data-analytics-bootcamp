@@ -195,6 +195,45 @@ than chaining pairwise `merge()` calls one at a time.
 
 ---
 
+## Quick guidelines (from class)
+
+The decision tree the lesson gave for combining DataFrames — what to reach
+for depends on what you're actually trying to do:
+
+```
+What do you want to add?
+│
+├── More ROWS (same columns, another batch of the same data)
+│   └── pd.concat([df1, df2, ...], axis=0)
+│
+└── More COLUMNS (different info about the same rows)
+    │
+    └── How should the rows be matched up?
+        │
+        ├── Don't care — just line them up by position
+        │   └── pd.concat([df1, df2, ...], axis=1)
+        │
+        └── Match rows using a column's values
+            │
+            ├── pd.merge(df1, df2, on="common_column", how="inner"/"left"/"right"/"outer")
+            │   └── different column names on each side?
+            │       use left_on="..." + right_on="..." instead of on="..."
+            │
+            └── df1.join(df2, how="inner"/"left"/"right"/"outer")
+                └── matches on the INDEX, not a column by default —
+                    set_index() on the shared key first (or pass
+                    on="column_in_df1" to match df1's column against df2's index)
+```
+
+The one thing worth adding to the original slide: `join()`'s default
+matching key is the **index**, not a column — that's the actual difference
+from `merge()`, not just "same thing, different name." The `on=` parameter
+on `join()` exists but works differently than `merge()`'s: it lets the
+*calling* DataFrame's column match the *other* DataFrame's index, it
+doesn't match column-to-column like `merge(on=...)` does.
+
+---
+
 ## Quick reference: `concat` vs `merge` vs `join`
 
 | Join type | Keeps | pandas `how=` |
