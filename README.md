@@ -185,6 +185,7 @@ Workflow for each lab:
 | Error Handling | [week01/day4](week01/day4/lab-python-error-handling.ipynb) | [lab-python-error-handling](https://github.com/aroaxinping/lab-python-error-handling) |
 | Pandas | [week02/day1](week02/day1/lab-dw-pandas.ipynb) | [lab-dw-pandas](https://github.com/aroaxinping/lab-dw-pandas) |
 | Data Cleaning and Formatting | [week02/day2](week02/day2/lab-dw-data-cleaning-and-formatting.ipynb) | [lab-dw-data-cleaning-and-formatting](https://github.com/aroaxinping/lab-dw-data-cleaning-and-formatting) |
+| Data Structuring and Combining | [week02/day3](week02/day3/lab-dw-data-structuring-and-combining.ipynb) | [lab-dw-data-structuring-and-combining](https://github.com/aroaxinping/lab-dw-data-structuring-and-combining) |
 
 ## Bonus content
 
