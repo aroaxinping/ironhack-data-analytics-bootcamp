@@ -5,14 +5,51 @@
 - Lab | Data Structuring and Combining
 - Lab | Data Aggregation and Filtering
 
-> Not fully covered yet — starting with join types below, since that's the
-> piece I had a clear worked example for. The rest (`concat`, pivot,
-> stack/unstack, melt, aggregation) will get filled in as we go through the
-> actual lesson.
+> Aggregating Data and its lab aren't covered yet — that's a separate
+> lesson (`2.4_aggregating_data.ipynb`) I don't have yet. Everything below
+> is Combining + Structuring.
 
 ---
 
-## Join types
+## `concat` — stack DataFrames together
+
+Combines two or more DataFrames by literally stacking them — no key
+column needed, no relationship between rows required.
+
+```python
+pd.concat([df_sales, df_sales_2], axis=0)   # more rows (axis=0 is the default)
+pd.concat([df_sales, df_revenue, df_costs], axis=1)   # more columns
+```
+
+- `axis=0` (rows) is for the classic case: the same columns, split across
+  multiple files/sources (e.g. monthly sales exports) that need to become
+  one longer table.
+- `axis=1` (columns) lines DataFrames up **side by side by index position**
+  — it doesn't check that the rows actually correspond to the same thing,
+  so this only makes sense when the DataFrames already share a meaningful
+  index.
+- `join="inner"` restricts the result to columns (for `axis=0`) or rows
+  (for `axis=1`) common to all the DataFrames, instead of the default
+  `join="outer"` which keeps everything and fills gaps with `NaN`.
+- Concatenating rows almost always wants `.reset_index(drop=True)`
+  afterwards — otherwise the index numbers just repeat (0,1,2... 0,1,2...)
+  instead of continuing.
+
+---
+
+## `merge` — combine on a shared column
+
+```python
+pd.merge(df_sales, df_revenue, on="Date")                       # inner join by default
+pd.merge(df_sales, df_revenue, on="Date", how="outer")
+pd.merge(df1, df2, left_on="col_in_df1", right_on="col_in_df2")  # different column names
+```
+
+`merge` looks for matching **values** in a specified column (or columes) —
+not row position, not the index. If the key column has a different name in
+each DataFrame, `left_on`/`right_on` replace `on`.
+
+## Join types (the `how=` parameter)
 
 Two tables:
 
@@ -134,13 +171,135 @@ the result as a single new table, then join the next one in — repeat until
 every table is merged in. You never actually combine 3+ tables "at once,"
 it just looks that way because the chaining happens quickly.
 
+### `join()` — merge by index instead of by column
+
+```python
+df_sales.set_index("Date", inplace=True)
+df_revenue.set_index("Date", inplace=True)
+
+df_sales.join([df_revenue, df_costs])              # left join by default
+df_sales.join([df_revenue, df_costs], how="inner")
+```
+
+Functionally similar to `merge`, but two differences matter:
+
+| | `merge()` | `join()` |
+|---|---|---|
+| Matches on | values in a chosen column | the **index** |
+| Default `how` | `inner` | `left` |
+
+`join()` can also take a **list** of DataFrames at once (`df.join([a, b])`)
+— but because it matches on the index, joining 3+ that way only keeps rows
+whose index exists in *every* table for `how="inner"`, which is stricter
+than chaining pairwise `merge()` calls one at a time.
+
 ---
 
-## Quick reference
+## Quick reference: `concat` vs `merge` vs `join`
 
 | Join type | Keeps | pandas `how=` |
 |---|---|---|
-| Inner | only rows matching on both sides | `"inner"` (default) |
-| Left | every row from the left table, matched or not | `"left"` |
+| Inner | only rows matching on both sides | `"inner"` (default for `merge`) |
+| Left | every row from the left table, matched or not | `"left"` (default for `join`) |
 | Right | every row from the right table, matched or not | `"right"` |
 | Full / outer | every row from both tables, matched or not | `"outer"` |
+
+| Function | Matches on | Use when |
+|---|---|---|
+| `concat` | position / index, no key | stacking same-shape data from multiple sources |
+| `merge` | values in a column | combining on a shared key, most common case |
+| `join` | the index | already indexed by the key, or combining 3+ at once |
+
+---
+
+## Structuring: pivot, stack/unstack, melt
+
+### Pivot — long to wide
+
+```python
+df.pivot(index="country", columns="year", values="Population")
+```
+
+Turns unique values from one column (`year`) into **new columns**, filling
+each cell with the matching `values`. Requires exactly one value per
+`(index, column)` combination — if there's more than one (duplicates),
+`pivot()` raises an error.
+
+```python
+df.pivot_table(index="country", columns="year", values=["GDP"], aggfunc="sum")
+```
+
+`pivot_table` is the version that handles duplicates — `aggfunc` says how
+to combine them (`sum`, `mean`, `count`...). In practice, `pivot_table` is
+the safer default; reach for plain `pivot` only when you already know
+there's exactly one value per cell.
+
+### Stack / Unstack — move between index levels and columns
+
+```python
+df_multiindex = df.set_index(["country", "year"])   # a multi-level index
+stacked = df_multiindex.stack()          # columns -> another index level (very long/narrow)
+unstacked = stacked.unstack("year")      # one of those index levels -> columns again (wider)
+```
+
+- `stack()`: columns become part of the row index — the DataFrame gets
+  narrower and taller.
+- `unstack()`: the opposite — an index level becomes columns, the
+  DataFrame gets shorter and wider.
+- They're inverses of each other, and specifically for multi-level
+  (hierarchical) indexes — `pivot`/`melt` are the more common tools for
+  single-level reshaping.
+
+### Melt — wide to long
+
+```python
+pd.melt(df, id_vars=["country", "year"], value_vars=["Population", "GDP"],
+        var_name="Indicator", value_name="Value")
+```
+
+The reverse of `pivot`: several value columns (`Population`, `GDP`)
+collapse down into two columns — one naming *which* variable
+(`Indicator`), one holding its value (`Value`). `id_vars` are the columns
+that stay as-is and repeat for each melted row.
+
+**Long vs wide, when to use which:** wide format (one column per category)
+is easier to *read* as a summary table; long format (one row per
+observation) is what most plotting/grouping tools actually expect as
+input. `melt`/`stack` go wide→long, `pivot`/`unstack` go long→wide.
+
+---
+
+## Check for understanding — solved in [2.3_combining_structuring_data.ipynb](2.3_combining_structuring_data.ipynb)
+
+- Combine two student DataFrames with `concat`; merge students with courses
+  using all four `how=` types and compare the results; set `StudentID` as
+  the index on three DataFrames and `join()` them with `inner`/`outer`.
+  Joining 3 tables with `join(..., how="inner")` is stricter than chaining
+  pairwise merges — it only keeps rows present in **every** table at once.
+- Build a product × region sales summary with `pivot_table(..., aggfunc="sum")`.
+
+---
+
+## Lab | Data Structuring and Combining
+
+Builds on the Day 2 cleaning lab — same `cleaning_functions.py`, extended
+to handle 3 different data sources at once:
+
+- **Challenge 1**: `file1.csv`/`file2.csv` use the same messy format as the
+  cleaning lab (`ST`, `%`-strings, `"1/0/00"` complaints) — but `file3.csv`
+  turned out to already be clean (`State`, plain numbers). Concatenating
+  them exposed a real bug: `clean_invalid_values`/`format_data_types`
+  assumed every value was a string to `.str.replace()`/`.str.split()`, which
+  silently turned file3's already-numeric values into `NaN` instead of
+  leaving them alone. Fixed by checking the value first instead of assuming
+  its type — same fix pushed back to the [Day 2 cleaning functions](../day2/cleaning_functions.py).
+- **Challenge 2**: on `marketing_customer_analysis_clean.csv` (already
+  clean) — total claim amount by sales channel (Agent brings in ~1.81M, more
+  than double Call Center, and over 2.5x Web), average CLV by gender and
+  education (highest for "High School or Below" of any education level, in
+  both genders — counterintuitive if you'd expect CLV to track with
+  education), and a complaints-by-policy-and-month summary reshaped from
+  wide (`pivot_table`) to long (`melt`).
+
+Solved here: [lab-dw-data-structuring-and-combining.ipynb](lab-dw-data-structuring-and-combining.ipynb)
+(submitted via PR from [lab-dw-data-structuring-and-combining](https://github.com/aroaxinping/lab-dw-data-structuring-and-combining), required for the Student Portal to mark it as done)
