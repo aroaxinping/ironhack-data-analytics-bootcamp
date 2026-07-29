@@ -210,6 +210,25 @@ than chaining pairwise `merge()` calls one at a time.
 | `merge` | values in a column | combining on a shared key, most common case |
 | `join` | the index | already indexed by the key, or combining 3+ at once |
 
+**How to actually decide, in order:**
+
+1. **Are the tables just pieces of the same data, no key needed?** (this
+   month's export + last month's export, same columns) → `concat`. If it's
+   the question "do these rows belong to the same real thing," `concat`
+   isn't it — it doesn't check, it just stacks.
+2. **Otherwise, is there a shared key living in the columns** (e.g. both
+   tables have a `client_id` column)? → `merge`. This is the default case
+   for combining two genuinely different tables — customers + orders,
+   students + grades.
+3. **Is the key already the index** on both sides, or are there 3+ tables
+   to combine against the same key? → `join`. It reads cleaner than
+   chaining several `merge()` calls, but remember its default is `left`
+   (not `inner` like `merge`), and `how="inner"` across 3+ tables at once
+   is stricter than pairwise merging (see the lab notes above).
+
+If unsure and the tables aren't already indexed by the key: reach for
+`merge` first — it's the most explicit about what it's matching on.
+
 ---
 
 ## Structuring: pivot, stack/unstack, melt
@@ -266,6 +285,27 @@ that stay as-is and repeat for each melted row.
 is easier to *read* as a summary table; long format (one row per
 observation) is what most plotting/grouping tools actually expect as
 input. `melt`/`stack` go wide→long, `pivot`/`unstack` go long→wide.
+
+### Which one, in order
+
+| Tool | Direction | Use when |
+|---|---|---|
+| `pivot` | long → wide | one value per index/column combo, guaranteed no duplicates |
+| `pivot_table` | long → wide | same, but need to aggregate (sum/mean/count) because duplicates exist |
+| `stack` | wide → long(er) | need to fold columns into an *index level*, not a plain column — usually prepping for `unstack` later |
+| `unstack` | long → wide | undo a `stack`, or promote one level of a multi-index back into columns |
+| `melt` | wide → long | need a genuinely long table (one row per observation) for grouping/plotting, `id_vars` stay as-is |
+
+1. **Need a summary table a human will read** (categories across the top,
+   one number per cell)? → `pivot_table` almost always — it's the safer
+   default over `pivot` since real data usually has duplicate
+   index/column combinations somewhere.
+2. **Need long format for `groupby`, `seaborn`, or similar tools that
+   expect one row per observation?** → `melt`.
+3. **Already working with a multi-level index** (from `set_index` on 2+
+   columns) and need to move a level between the index and the columns?
+   → `stack`/`unstack` — this is specifically their job, `pivot`/`melt`
+   don't touch index levels the same way.
 
 ---
 
