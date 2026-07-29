@@ -22,7 +22,11 @@ def clean_invalid_values(df: pd.DataFrame) -> pd.DataFrame:
         "AZ": "Arizona", "Cali": "California", "WA": "Washington",
     })
     df2["education"] = df2["education"].replace({"Bachelors": "Bachelor"})
-    df2["customer_lifetime_value"] = df2["customer_lifetime_value"].str.replace("%", "", regex=False)
+    # some sources already have this as a plain number (no "%") -- str.replace() on a
+    # mixed-type column would silently turn those into NaN, so go through str() first
+    df2["customer_lifetime_value"] = df2["customer_lifetime_value"].apply(
+        lambda x: str(x).replace("%", "") if pd.notna(x) else x
+    )
     df2["vehicle_class"] = df2["vehicle_class"].replace({
         "Sports Car": "Luxury", "Luxury SUV": "Luxury", "Luxury Car": "Luxury",
     })
@@ -32,8 +36,11 @@ def clean_invalid_values(df: pd.DataFrame) -> pd.DataFrame:
 def format_data_types(df: pd.DataFrame) -> pd.DataFrame:
     df2 = df.copy()
     df2["customer_lifetime_value"] = pd.to_numeric(df2["customer_lifetime_value"], errors="coerce")
-    # "1/0/00" -> take the middle number, e.g. "0"
-    df2["number_of_open_complaints"] = df2["number_of_open_complaints"].str.split("/").str[1]
+    # "1/0/00" -> take the middle number, e.g. "0" -- but some sources already have a plain
+    # number here, so only split if there's actually a "/" to split on
+    df2["number_of_open_complaints"] = df2["number_of_open_complaints"].apply(
+        lambda x: str(x).split("/")[1] if pd.notna(x) and "/" in str(x) else x
+    )
     df2["number_of_open_complaints"] = pd.to_numeric(df2["number_of_open_complaints"], errors="coerce")
     return df2
 
