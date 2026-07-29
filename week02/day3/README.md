@@ -5,10 +5,6 @@
 - Lab | Data Structuring and Combining
 - Lab | Data Aggregation and Filtering
 
-> Aggregating Data and its lab aren't covered yet — that's a separate
-> lesson (`2.4_aggregating_data.ipynb`) I don't have yet. Everything below
-> is Combining + Structuring.
-
 ---
 
 ## `concat` — stack DataFrames together
@@ -382,3 +378,118 @@ to handle 3 different data sources at once:
 
 Solved here: [lab-dw-data-structuring-and-combining.ipynb](lab-dw-data-structuring-and-combining.ipynb)
 (submitted via PR from [lab-dw-data-structuring-and-combining](https://github.com/aroaxinping/lab-dw-data-structuring-and-combining), required for the Student Portal to mark it as done)
+
+---
+
+## Aggregation & Grouping
+
+**Aggregation** reduces multiple values down to one: `mean()`, `sum()`,
+`min()`, `max()`, `count()`, `std()`. On its own, applied to a whole
+column:
+
+```python
+df['Fare'].mean()
+```
+
+**Grouping** is what makes aggregation useful — split the data into
+buckets first, *then* aggregate each bucket separately:
+
+```python
+grouped = df.groupby('Sex')   # doesn't compute anything yet, just sets up the split
+```
+
+`groupby()` on its own returns a `GroupBy` object, not a result — nothing
+is calculated until you do something with it:
+
+```python
+for name, group in grouped:            # iterate: (group label, that group's DataFrame)
+    print(name)
+
+grouped.groups                          # dict: {group label: row labels in that group}
+grouped.size()                          # rows per group -- INCLUDES NaN, unlike count()
+grouped.get_group('female')             # pull out one group as its own DataFrame
+```
+
+### Applying an aggregation
+
+```python
+numeric_cols = df.select_dtypes('number').columns
+df.groupby('Sex')[numeric_cols].mean()    # mean of every numeric column, per group
+df.groupby('Sex')['Age'].mean()           # just one column
+```
+
+Mental model: **groups → columns → aggregation function** — pick what to
+split by, then what to measure, then how to summarize it.
+
+### Multiple aggregations at once — `agg()`
+
+```python
+df.groupby('Sex')['Age'].agg(['count', 'mean', 'std'])
+
+df.groupby('Sex').agg({
+    "Age": ['count', 'mean', 'std'],
+    "Fare": ['min', 'max'],
+})
+```
+
+`agg()` with a dict lets different columns get *different* aggregation
+functions in one call, instead of applying the same function to everything.
+
+### Grouping by multiple variables
+
+```python
+df.groupby(['Sex', 'Survived']).agg({"Age": ['count', 'mean', 'std'], "Fare": ['min', 'max']})
+```
+
+Pass a list to `groupby()` to split by more than one variable at once —
+useful for analyzing data at a finer level of granularity (not just "by
+gender" but "by gender *and* survival status").
+
+**`.mean()` on a 0/1 column is a rate, for free** — the average of a
+column of 0s and 1s (like `Survived`) *is* the proportion of 1s. No need
+to separately divide count-survived by count-total; `groupby(...)['Survived'].mean()`
+already gives the survival rate directly.
+
+---
+
+## Check for understanding — solved in [2.4_aggregating_data.ipynb](2.4_aggregating_data.ipynb)
+
+Titanic dataset — fare by sex, survival by class and by gender,
+`get_group('1')` for first class then survival-vs-fare within it, a custom
+`AgeGroup` bucketing (`Child`/`Teen`/`Adult`/`Senior`) with survivor counts
+per group, and the bonus survival *rate* per age group.
+
+Two results worth remembering:
+- Survival tracked strongly with both **class** (372 died vs 119 survived
+  in 3rd class, the opposite in 1st) and **gender** (468 men died vs 109
+  survived; 233 women survived vs 81 died) — "women and children first"
+  shows up directly in the numbers.
+- Even *within* 1st class alone, survivors paid a higher average fare
+  (~95.6) than non-survivors (~64.7) — price correlated with survival even
+  after controlling for class.
+
+---
+
+## Lab | Data Aggregation and Filtering
+
+Builds on the previous two labs, on the raw (not pre-cleaned)
+`marketing_customer_analysis.csv` — mostly clean already, but needed
+column-name cleanup, an `Unnamed: 0` index column dropped, and `month`
+extracted from `effective_to_date`.
+
+- Filtered to low-claim (`< $1000`) customers who responded "Yes".
+- Compared premium/CLV/claim-amount by policy type and gender for
+  responders — Personal Auto (F) stood out with the highest CLV but only a
+  mid-pack claim amount, the profile of a profitable, lower-risk segment.
+- CLV by education and gender: the **median** barely moves across any
+  group (~5.3k–6.3k everywhere) even though the **max** swings wildly
+  (32.7k to 83.3k) — education mostly affects how far the high-end
+  outliers reach, not the typical customer.
+- Bonus: policies sold by state × month (`pivot_table`), narrowed to the
+  top 3 states by volume, and response rate by sales channel — built as a
+  wide count table first, then reshaped to long with `melt`. Agent has
+  both the most volume *and* the best response rate (19.1%, ~70% higher
+  than any other channel).
+
+Solved here: [lab-dw-aggregating.ipynb](lab-dw-aggregating.ipynb)
+(submitted via PR from [lab-dw-data-aggregation-and-filtering](https://github.com/aroaxinping/lab-dw-data-aggregation-and-filtering), required for the Student Portal to mark it as done)
