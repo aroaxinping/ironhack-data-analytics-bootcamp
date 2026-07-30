@@ -187,6 +187,7 @@ Workflow for each lab:
 | Data Cleaning and Formatting | [week02/day2](week02/day2/lab-dw-data-cleaning-and-formatting.ipynb) | [lab-dw-data-cleaning-and-formatting](https://github.com/aroaxinping/lab-dw-data-cleaning-and-formatting) |
 | Data Structuring and Combining | [week02/day3](week02/day3/lab-dw-data-structuring-and-combining.ipynb) | [lab-dw-data-structuring-and-combining](https://github.com/aroaxinping/lab-dw-data-structuring-and-combining) |
 | Data Aggregation and Filtering | [week02/day3](week02/day3/lab-dw-aggregating.ipynb) | [lab-dw-data-aggregation-and-filtering](https://github.com/aroaxinping/lab-dw-data-aggregation-and-filtering) |
+| Web Scraping | [week02/day4](week02/day4/lab-web-scraping.ipynb) | [lab-web-scraping](https://github.com/aroaxinping/lab-web-scraping) |
 
 ## Bonus content
 
