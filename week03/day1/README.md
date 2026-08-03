@@ -35,30 +35,100 @@ own `UNIQUE` constraint but not necessarily the primary key. Keeping them
 separate means the internal ID never has to change even if the business
 ID's format changes down the line.
 
-### Relationship types
+---
 
-- **One-to-one** — one row in A matches exactly one row in B.
-- **One-to-many** — one row in A can match many rows in B (e.g. one
-  `salesperson` → many `invoices`), but each row in B points to only one
-  row in A. The FK lives on the "many" side.
-- **Many-to-many** — rows on both sides can match multiple rows on the
-  other. Needs a third "junction" table in between, holding a FK to each
-  side (can't be expressed with a single FK column).
+## Data Modeling
 
-### Data modeling / ERDs
+Data modeling is the step *before* writing any SQL: a conceptual process
+that breaks the business down into what needs storing, and how those
+pieces relate — first as an **Entity-Relationship model** on paper, then
+translated into an actual **ERD** (Entity-Relationship *Diagram*), and only
+then into `CREATE TABLE` statements.
 
-An **Entity-Relationship Diagram (ERD)** is the visual version of a schema
-design: boxes for tables (entities), listing their columns (attributes)
-and key type, with lines between boxes showing the relationships and their
-cardinality (`||` one, `o{` many, etc.).
+### Entities and attributes
 
-MySQL Workbench can do this two ways:
-- **Forward engineering** — draw the ERD first, generate the `CREATE
-  TABLE` SQL from it.
-- **Reverse engineering** — point it at an existing database, get the ERD
-  generated automatically from what's already there.
+An **entity** is a real-world object worth storing data about — the
+equivalent of a Python class. Can be:
+- **Concrete** (tangible) — a car, a person, a classroom.
+- **Abstract** (not tangible) — a loan, a degree, a subject.
 
-### Data Warehouse vs Data Mart vs Data Lake
+An **attribute** is a characteristic that describes/distinguishes one
+instance of an entity from another. Attributes come in a few flavors:
+- **Single** — one atomic value (a color).
+- **Compound** — made of smaller parts (an address = street + number +
+  zip code + city).
+- **Primary key** — unique, never `NULL`, identifies the entity. If a
+  natural one doesn't exist, create a custom one (this is exactly why the
+  lab's tables all got an `AUTO_INCREMENT id`, separate from `vin`/
+  `customer_id`/etc.).
+- **Multivalued** — an entity can have more than one (a customer can have
+  several phone numbers).
+- **Derived** — calculated from another attribute, not stored directly
+  (age, derived from date of birth vs. today's date).
+
+### Drawing the Entity-Relationship model
+
+1. A rectangle per entity, its name inside.
+2. An ellipse per attribute, attached to its entity.
+3. **Underline** the primary key's name.
+4. **Double-bordered** ellipse for multivalued attributes.
+5. Compound attributes get their own sub-ellipses branching off the main
+   one (address → street, number, zip, city, each as a smaller ellipse
+   attached to "address").
+
+### Relationships and cardinality
+
+A **relationship** is the association between two entities — usually a
+verb (`owns`, `buys`, `sells`), drawn as a diamond connecting the two
+entity rectangles.
+
+To figure out the **cardinality** (how the relationship counts on each
+side), ask the question from *both* directions:
+
+> One element of entity A relates to how many elements of entity B — one,
+> or many? Then ask the same question the other way round.
+
+Worked example, straight from the lab's schema — `customers` and
+`invoices`:
+- One customer → how many invoices? Could be **many** (N).
+- One invoice → how many customers? Exactly **one** (1).
+
+That gives a **1-to-N** relationship, N on the `invoices` side.
+
+### From the ER model to the actual ERD (and where the FK goes)
+
+Once every entity is a table (attributes → columns, primary key gets the
+`id`), the relationship's cardinality decides **which table gets the
+foreign key**:
+
+| Cardinality | What happens |
+|---|---|
+| **1 to 1** | Either entity can borrow the other's PK as a FK — pick a side. |
+| **1 to N** | The entity on the **N** side borrows the **1** side's PK as a FK. |
+| **N to M** | The relationship itself becomes a **new table** (a "bridging"/junction table, usually named after the verb), with its own PK, holding a FK to *each* of the two original entities. |
+
+This is exactly what the lab's `invoices` table is: three separate 1-to-N
+relationships (`cars`→`invoices`, `customers`→`invoices`,
+`salespersons`→`invoices`), each contributing one FK column
+(`car_id`/`customer_id`/`salesperson_id`) to the table on the "N" side.
+Had the relationship instead been N-to-M (say, a car could be linked to
+multiple salespersons and vice versa, independent of any invoice),
+`invoices` itself would have needed to become that bridging table.
+
+Last step: assign a concrete SQL data type to every attribute, consistent
+with what the actual data looks like (an ID is an `INT`, a VIN is fixed-
+length text, a price needs decimals, etc.) — this is the point where the
+diagram turns into the `CREATE TABLE` statements in [create.sql](create.sql).
+
+**Tools:** [DrawDB](https://www.drawdb.app/) can build the ERD directly
+and export a starter MySQL script from it; MySQL Workbench does the same
+two ways — **forward engineering** (draw the ERD, generate the `CREATE
+TABLE` SQL from it) or **reverse engineering** (point it at an existing
+database, get the ERD generated automatically from what's already there).
+
+---
+
+## Data Warehouse vs Data Mart vs Data Lake
 
 - **Data Warehouse** — structured, cleaned, integrated data from multiple
   sources, organized for company-wide analysis and reporting.
