@@ -261,9 +261,11 @@ SELECT RTRIM(' Hello ');
 -- 4. Get the biggest and the smallest transaction with non-zero values in the database (use the trans table in the bank database).
 
 -- 5. Get account information with an extra column year showing the opening year as 'YY'. Eg., 1995 will show as 95. Hint: Look at the first two characters of the string date in the account table. You would have to use function `substr`. Google is your friend. 
--- 1. dataset's most recent year is 1998 (max card.issued = 981229) -- 980000 catches every 1998 date
+-- 1. LEFT(issued,2) = '98' checks the year prefix exactly -- more precise than a >= threshold,
+-- which would also (wrongly) catch 1999+ if that ever existed in the data. It doesn't here
+-- (max card.issued = 981229), so both give the same 70 rows, but this is the correct one.
 SELECT * FROM bank.card
-WHERE type = 'junior' AND issued >= '980000';   -- 70 cards
+WHERE type = 'junior' AND LEFT(issued, 2) = '98';   -- 70 cards
 
 -- 2. VYDAJ = withdrawal, operation <> 'VYBER' excludes the specifically-cash withdrawal
 SELECT * FROM bank.trans
