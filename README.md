@@ -189,6 +189,8 @@ Workflow for each lab:
 | Data Aggregation and Filtering | [week02/day3](week02/day3/lab-dw-aggregating.ipynb) | [lab-dw-data-aggregation-and-filtering](https://github.com/aroaxinping/lab-dw-data-aggregation-and-filtering) |
 | Web Scraping | [week02/day4](week02/day4/lab-web-scraping.ipynb) | [lab-web-scraping](https://github.com/aroaxinping/lab-web-scraping) |
 | MySQL Database Creation | [week03/day1](week03/day1/create.sql) | [lab-sql-mysql-db-creation](https://github.com/aroaxinping/lab-sql-mysql-db-creation) |
+| SQL Basic Queries | [week03/day2](week03/day2/lab-sql-basic-queries.sql) | [lab-sql-basic-queries](https://github.com/aroaxinping/lab-sql-basic-queries) |
+| SQL Data Aggregation and Transformation | [week03/day2](week03/day2/lab-sql-aggregation-and-transformation.sql) | [lab-sql-aggregation-and-transformation](https://github.com/aroaxinping/lab-sql-aggregation-and-transformation) |
 
 ## Bonus content
 
