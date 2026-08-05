@@ -10,6 +10,37 @@
 
 ---
 
+## How to decide which join to use, step by step
+
+A framework from class for approaching *any* join from scratch, before
+writing a single line of SQL — worked example using `account`/`loan`:
+
+1. **Which tables contain the information I actually want?** →
+   `account`, `loan`.
+2. **Do they have a column in common?** → `account_id`, in both.
+3. **Which table is "left" and which is "right"?** → arbitrary at this
+   point, just pick one to anchor the thinking — say `account` = left,
+   `loan` = right.
+4. **From which table do I want *all* the records, matched or not?** —
+   this is the question that actually picks the join type, not step 3.
+   Want everything from the left table → `LEFT JOIN`. From the right →
+   `RIGHT JOIN`. From both → outer (`UNION` of the two). Only the rows
+   that match on both sides → inner `JOIN`.
+   - Example: "I want every loan, whether or not it has full account
+     info" → all records from `loan` → `RIGHT JOIN` on `loan` (or
+     equivalently, `LEFT JOIN` with `loan` written first).
+5. **Gather everything — build the join** (the `FROM`/`JOIN`/`ON` skeleton).
+6. **Write the final query** — add the actual `SELECT` columns, `WHERE`,
+   `ORDER BY`, etc. on top of the join skeleton from step 5.
+
+The useful reframe here is step 4: "left" vs "right" is just a label you
+assign in step 3, arbitrary either way — the actual decision is "which
+table's rows do I refuse to lose," and *that* is what determines
+`LEFT`/`RIGHT`/`INNER`/outer, not which table happens to be named first
+in the query.
+
+---
+
 ## Inner join
 
 ```sql
