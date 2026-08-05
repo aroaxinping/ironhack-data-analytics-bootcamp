@@ -39,6 +39,58 @@ table's rows do I refuse to lose," and *that* is what determines
 `LEFT`/`RIGHT`/`INNER`/outer, not which table happens to be named first
 in the query.
 
+### The generic join skeleton (and its pandas `merge()` equivalent)
+
+Every join, once steps 1-5 above are answered, fills in the same template:
+
+```sql
+SELECT
+    left_table.col1,
+    left_table.col2,
+    right_table.col1,
+    right_table.col2
+FROM db.left_table [AS left_table_alias]
+type_of_join JOIN db.right_table [AS right_table_alias]
+ON db.left_table.common_column = db.right_table.common_column;
+```
+
+Filled in for `account`/`loan`:
+
+```sql
+SELECT a.account_id, a.district_id, l.loan_id, l.amount
+FROM bank.account AS a
+LEFT JOIN bank.loan AS l
+ON a.account_id = l.account_id;
+```
+
+`type_of_join` is one of:
+
+| SQL | Meaning |
+|---|---|
+| `INNER` (or nothing — inner is the default, the only one that **can** be omitted) | only matching rows |
+| `LEFT` | every row from the left table |
+| `RIGHT` | every row from the right table |
+| *(no single keyword)* | full/outer = `LEFT JOIN ... UNION RIGHT JOIN ...` (already covered above) |
+
+**Same thing, pandas side** (from the Day 3 combining lesson, week 2) —
+`ON`/`type_of_join` map directly onto `merge()`'s `on=`/`how=`:
+
+```python
+pd.merge(left_table, right_table, on=common_column, how=type_of_join)
+
+# common column has a different name on each side -> left_on/right_on instead of on
+pd.merge(left_table, right_table,
+         left_on=common_column_left_table,
+         right_on=common_column_right_table,
+         how=type_of_join)
+```
+
+The one asymmetry worth remembering: SQL's inner join is the *implicit*
+default (`JOIN` alone means inner) — pandas doesn't default to inner
+because a `how=` is unspecified, `merge()` explicitly defaults to
+`how="inner"` too, so the two behave the same, just one states it as the
+keyword's absence and the other as an actual default parameter value.
+
 ---
 
 ## Inner join
