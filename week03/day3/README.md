@@ -106,6 +106,22 @@ survive. For an inner join specifically, it doesn't matter which table is
 "left" and which is "right": the result (the matching intersection) is the
 same either way.
 
+**Does the order inside `ON` matter — `a.account_id = l.account_id` vs
+`l.account_id = a.account_id`?** In class this came up as "always write
+the left table first, it's faster." Checked it rather than taking it on
+faith — `EXPLAIN` on both orderings, on the small `loan` table (682 rows)
+*and* on the 868K-row `trans` table, and the execution plan is byte-for-
+byte identical either way (same `key`, same `rows`, same `Extra`). MySQL's
+optimizer normalizes an equality condition regardless of which side each
+column is written on — order inside `ON` doesn't affect performance here.
+
+What's actually true, and probably what that advice was pointing at: it's
+a **readability convention**, not a speed one. Writing
+`left_table.col = right_table.col` — matching the order the tables
+already appear in `FROM ... JOIN ...` — makes a query easier to scan at a
+glance, especially once there are several joins stacked. Worth doing for
+that reason; not because the database cares.
+
 ## Left join / right join — order suddenly matters
 
 ```sql
