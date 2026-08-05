@@ -5,9 +5,6 @@
 - Lab | SQL Joins
 - Lab | SQL Subqueries
 
-> Subqueries not covered yet — that's `4.4_sql_subqueries.sql`, which I
-> don't have yet. Everything below is Joins.
-
 ---
 
 ## How to decide which join to use, step by step
@@ -238,6 +235,102 @@ actual `card`/`disp` tables directly).
   structure, none of that. 4,500 owner rows — one per account, since
   every account has exactly one owner (some also have a second person as
   `DISPONENT`, which is what the self-join above was demonstrating).
+
+---
+
+## Subqueries
+
+A **subquery** is a `SELECT` nested inside another query — the inner one
+runs first, and its result gets used as if it were a value (or a table)
+in the outer one. Useful whenever the filter/comparison value isn't known
+ahead of time, only derivable from the data itself.
+
+```sql
+SELECT ROUND(AVG(amount), 2) AS Average FROM bank.loan;   -- one value, on its own: 151410.18
+
+SELECT * FROM bank.loan
+WHERE amount > (SELECT ROUND(AVG(amount)) AS Average FROM bank.loan);
+```
+
+The inner query computes the overall average once; the outer query uses
+that single number as the threshold — no need to run the first query,
+read off the number, and paste it in by hand.
+
+### Subqueries with `GROUP BY`/`HAVING`
+
+```sql
+-- which loan statuses have an average amount above the OVERALL average?
+SELECT status, ROUND(AVG(amount), 2) AS Average
+FROM bank.loan
+GROUP BY status
+HAVING Average > (SELECT ROUND(AVG(amount)) AS Average1 FROM bank.loan)
+ORDER BY Average DESC;
+```
+
+Same idea as the `WHERE` case, just filtering *groups* instead of rows —
+`HAVING` can reference a subquery exactly like it can reference a literal
+number.
+
+### Nested subqueries (subqueries inside subqueries)
+
+They can nest as deep as needed. The way to not get lost: build it up one
+piece at a time — write and test each inner layer on its own *first*,
+then wrap the next one around it once you trust it works.
+
+```sql
+-- Goal: all loans whose status has an above-average amount for that status
+-- Step 1: the statuses that qualify, as their own subquery
+SELECT status FROM (
+    SELECT status, AVG(amount) AS Average FROM bank.loan
+    GROUP BY status
+    HAVING Average > (SELECT ROUND(AVG(amount), 2) AS Average1 FROM bank.loan)
+) AS s;
+
+-- Step 2: wrap it in an outer query that uses those statuses to filter loans
+SELECT * FROM bank.loan
+WHERE status IN (
+    SELECT status FROM (
+        SELECT status, AVG(amount) AS Average FROM bank.loan
+        GROUP BY status
+        HAVING Average > (SELECT ROUND(AVG(amount), 2) AS Average1 FROM bank.loan)
+    ) AS s
+);
+```
+
+A subquery used in `FROM` (like `(...) AS s` above) **must** have an
+alias — MySQL won't run it otherwise, since every table reference needs a
+name, even a derived/temporary one.
+
+### Subquery vs join — which one?
+
+Checked with `EXPLAIN` rather than assuming: for an *uncorrelated*
+subquery (the inner query doesn't reference the outer table — every
+example above), MySQL 8's optimizer converts the `IN (...)` subquery into
+essentially the same plan as an equivalent join (materializes the
+subquery into a temp table, then matches against it). Confirmed on
+`account`/`district` filtered to Central Bohemia (574 accounts either
+way) — both plans scan the same number of rows.
+
+This doesn't generalize, though: a **correlated** subquery (one that
+*does* reference a column from the outer query) has to re-run once per
+outer row, and can be much slower than the join equivalent, since it
+can't be materialized just once. The join is the safer default reach —
+more predictable across databases and query shapes where this specific
+optimization isn't guaranteed to trigger.
+
+---
+
+## Check for understanding — solved in [4.4_sql_subqueries.sql](4.4_sql_subqueries.sql)
+
+- Average number of transactions per account (192.89) — a subquery in
+  `FROM` first counts transactions grouped by account, then the outer
+  query averages *those* counts. Not the same thing as an aggregate
+  directly on `trans` — the grouping has to happen first, as its own
+  step, before there's anything to average.
+- Accounts in Central Bohemia, once via a subquery (`district_id IN
+  (SELECT A1 FROM district WHERE A3 = 'central Bohemia')`) and once as
+  the equivalent join — same 574 rows either way, and the efficiency
+  write-up above is the answer to "which one is faster."
 
 ---
 
