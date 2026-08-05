@@ -184,6 +184,33 @@ Grouping by multiple columns (`GROUP BY bank_to, k_symbol`) groups by the
 *combination* — swapping the column order changes which one breaks ties
 first, not the actual grouping itself.
 
+**`ORDER BY` after `GROUP BY` — not required, but should always be there
+anyway.** SQL is not going to error without it. But nothing in the SQL
+standard (or in MySQL) guarantees *any* particular order for grouped
+results — the engine is free to return groups in whatever order its
+execution plan happens to produce (which table/index it scans, whether it
+sorts or hashes to build the groups, etc.), and that can change between
+runs, MySQL versions, or just because the optimizer picked a different
+plan. Proof, not just a claim — this is the *unordered* result of the
+`GROUP BY bank_to` query above:
+
+```
+bank_to  total
+YZ       1636982.8
+ST       1690662.7
+QR       1728170.3
+WX       1730775.7
+CD       1498209.4
+...
+```
+
+Not alphabetical, not sorted by total, not sorted by anything — that's
+genuinely just whatever order MySQL's temp table happened to build the
+groups in (`EXPLAIN` on that query shows `Using temporary`). If the result
+needs to be in a specific order — for a report, for `LIMIT` to cut off
+the "top N", for a chart — that's what `ORDER BY` is for, always added
+explicitly, never assumed from `GROUP BY` alone.
+
 ---
 
 ## Check for understanding — solved in [4.2_sql_queries.sql](4.2_sql_queries.sql)
