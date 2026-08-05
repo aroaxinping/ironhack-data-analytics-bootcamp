@@ -119,6 +119,16 @@ WHERE d.A3 = 'central Bohemia';
 -- same 574 accounts
 
 -- 3. Discuss which method will be more efficient.
+-- Run these two and compare the "Extra" and "rows" columns yourself:
+EXPLAIN SELECT * FROM bank.account
+WHERE district_id IN (
+    SELECT A1 FROM bank.district WHERE A3 = 'central Bohemia'
+);
+
+EXPLAIN SELECT a.* FROM bank.account AS a
+JOIN bank.district AS d ON a.district_id = d.A1
+WHERE d.A3 = 'central Bohemia';
+
 -- Checked with EXPLAIN rather than guessing: for this specific case (an uncorrelated
 -- subquery -- the inner query doesn't reference the outer one), MySQL 8's optimizer
 -- automatically rewrites the IN-subquery into essentially the same plan as the join
