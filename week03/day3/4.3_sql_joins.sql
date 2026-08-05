@@ -9,8 +9,57 @@ USE bank;
 -- BASIC JOINS
 -- ==================================================
 
+-- 1-Which tables contain the information that we want?
+-- 2-Do they have a common column (content)?
+-- 3-Which table will be our "left" table and which one the "right" table; pd.merge(df1, df2, ...)
+-- 4-Determine the type of join. (inner, left, right, outer/full)
+-- 5-Gather everything. Create the join
+-- 6-Write the final query.
 
--- INNER JOIN. 
+/*
+account, loan:
+account:
+  account_id. ----
+  district_id.    |
+  frequency.      |
+  date.           |
+loan:             |
+  loan_id         |
+  account_id. ----
+  date
+  amount
+  duration
+  payments
+  status
+*/
+-- account: left_table, loan: right_table
+-- type of join: from which table we want all the records? loan
+
+/*
+-- Join syntax:
+SELECT
+    left_table.col1,
+    left_table.col2,
+    ...,
+    right_table.col1,
+    right_table.col2
+FROM db.left_table [AS left_table_alias]
+type_of_join JOIN db.right_table [AS right_table_alias]
+ON db.left_table.common_column = db.right_table.common_column;
+
+pd.merge(left_table, right_table, on=common_column, how=type_of_join)
+pd.merge(left_table, right_table, left_on=common_column_left_table,
+                                    right_on=common_column_right_table,
+                                    how=type_of_join)
+
+type_of_join:
+inner (cant be ommited, because it is the default type of join)
+left
+right
+full_join = left_join UNION right_join
+*/
+
+-- INNER JOIN.
 -- Joining account and loan tables to get information about accounts with associated loans.
 -- As you can see, we use simply `join` to do an `inner join`.
 SELECT * FROM bank.account AS a
