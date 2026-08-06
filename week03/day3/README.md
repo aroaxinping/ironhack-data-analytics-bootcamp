@@ -119,6 +119,16 @@ already appear in `FROM ... JOIN ...` — makes a query easier to scan at a
 glance, especially once there are several joins stacked. Worth doing for
 that reason; not because the database cares.
 
+**On writing `JOIN` vs `INNER JOIN`:** the class examples above keep the
+bare `JOIN` on purpose — one of the comments in
+[4.3_sql_joins.sql](4.3_sql_joins.sql) is specifically making the point
+that plain `JOIN` *is* inner by default, so leaving it bare there is the
+lesson, not an omission. In my own solved queries (the two check-for-
+understanding sections below, and everywhere else going forward this
+week) I write `INNER JOIN` explicitly instead — functionally identical,
+but it removes any doubt about which join type was intended, the same
+way `LEFT`/`RIGHT` never get left implicit.
+
 ## Left join / right join — order suddenly matters
 
 ```sql
@@ -338,7 +348,7 @@ optimization isn't guaranteed to trigger.
 
 | Join | Keeps |
 |---|---|
-| `JOIN` / `INNER JOIN` | only rows matching on both sides |
+| `INNER JOIN` (or bare `JOIN` — inner is the default) | only rows matching on both sides |
 | `LEFT JOIN` | every row from the first (left) table, matched or not |
 | `RIGHT JOIN` | every row from the second (right) table, matched or not |
 | `LEFT JOIN ... UNION ... RIGHT JOIN` | full outer join (no dedicated keyword in MySQL) |
