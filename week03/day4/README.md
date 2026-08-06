@@ -269,19 +269,18 @@ in the last week.**
 
 ```sql
 CREATE VIEW last_week_withdrawals AS
-SELECT c.client_id, ROUND(SUM(t.amount),2) AS total_withdrawals
+SELECT d.client_id, ROUND(SUM(t.amount),2) AS total_withdrawals
 FROM bank.trans t
 INNER JOIN bank.disp d ON t.account_id = d.account_id
-INNER JOIN bank.client c ON d.client_id = c.client_id
 WHERE t.type IN ('VYDAJ','VYBER')
 AND CONVERT(t.date, DATE) BETWEEN
     (SELECT DATE_SUB(MAX(CONVERT(date,DATE)), INTERVAL 6 DAY) FROM bank.trans)
     AND (SELECT MAX(CONVERT(date,DATE)) FROM bank.trans)
-GROUP BY c.client_id
+GROUP BY d.client_id
 ORDER BY total_withdrawals DESC;
 ```
 
-Two things worth spelling out:
+Three things worth spelling out:
 
 - **"Withdrawal" isn't a single value.** `trans.type` has three values —
   `PRIJEM` (credit/deposit) and two withdrawal labels, `VYDAJ` and
@@ -293,6 +292,11 @@ Two things worth spelling out:
   transaction date (`MAX(date)` = 981231), going back 6 days from there —
   computed with a subquery rather than hardcoded, so the view still makes
   sense if the underlying data ever changes.
+- **No join to `bank.client` needed** — same lesson as the CTE query
+  above: `disp` already carries `client_id`, so joining `client` just to
+  read a column that was already sitting right there in `disp` adds a
+  join for nothing. Checked it doesn't change the result: same 1,219
+  rows, same top client (`1556`, 65,500) with or without it.
 
 Verified: 1,219 clients show up (out of ~5,369 total), topped by client
 `1556` at 65,500. `SELECT * FROM last_week_withdrawals;` any time after
