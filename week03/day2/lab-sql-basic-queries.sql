@@ -34,7 +34,7 @@ FROM inventory;
 
 SELECT COUNT(DISTINCT inventory.film_id) AS films_rented_at_least_once
 FROM rental
-JOIN inventory ON rental.inventory_id = inventory.inventory_id;
+INNER JOIN inventory ON rental.inventory_id = inventory.inventory_id;
 -- both come back as 958 -- every film currently in inventory has been rented at least once
 
 -- 5.4 Number of distinct last names of actors
