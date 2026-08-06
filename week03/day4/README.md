@@ -8,15 +8,10 @@
 Same case study as the last two days: the
 [PKDD'99 Financial Data Set](http://lisp.vse.cz/pkdd99/Challenge/berka.htm)
 (`bank` database — see [day 2's README](../day2/README.md) for the full
-setup/schema notes). Temp tables/views/CTEs below are solved from the real
-class script,
-[4.5_sql_temp_tables_views_ctes.sql](4.5_sql_temp_tables_views_ctes.sql).
-
-> **Window functions section is still a draft**, written ahead of class
-> from the general lesson material — no real class script for it yet.
-> Every example in it is verified against the real `bank` database, not
-> just copied from docs, but expect it to get reorganized once the actual
-> `4.6_sql_window_functions.sql` shows up.
+setup/schema notes). Both halves below are solved from the real class
+scripts,
+[4.5_sql_temp_tables_views_ctes.sql](4.5_sql_temp_tables_views_ctes.sql)
+and [4.6_sql_window_functions.sql](4.6_sql_window_functions.sql).
 
 ---
 
@@ -305,104 +300,228 @@ worry about.
 
 ---
 
-## Window functions (draft — no real class script for this half yet)
+## Window functions
+
+Solved from the real class script,
+[4.6_sql_window_functions.sql](4.6_sql_window_functions.sql).
 
 Aggregate-*like* functions that **don't collapse rows** — each row keeps
 its identity, but gets an extra column computed across a "window" of
-related rows (defined by `OVER`). This is the key difference from
-`GROUP BY`: grouping reduces N rows to fewer rows; a window function keeps
-all N rows and just adds information to each one.
+related rows (defined by `OVER()`). This is the key difference from
+`GROUP BY`: grouping reduces N rows down to one row per group; a window
+function keeps every row and just adds a computed column to it.
 
 ```sql
-SELECT column1, column2,
-       WINDOW_FUNCTION(column3) OVER (
-           PARTITION BY column4   -- split into groups, like GROUP BY, but without collapsing rows
-           ORDER BY column5       -- order *within* each partition
-       ) AS alias_name
-FROM tablename;
+SELECT AVG(amount) AS Avg_amount FROM bank.loan;   -- GROUP BY-style aggregate: 1 row back
+
+SELECT status, loan_id, duration, amount,
+       AVG(amount) OVER() AS Avg_amount            -- window function: 682 rows back
+FROM bank.loan;
 ```
 
-### `ROW_NUMBER()` — a running count per partition
+Same number (the overall average), but the second version attaches it to
+**every single loan row** instead of collapsing everything down to one
+line — so you can compare each individual loan against the average
+without a separate query or a self-join.
+
+### `PARTITION BY` — the `GROUP BY` of window functions
+
+An empty `OVER()` computes across *all* rows. Add `PARTITION BY` to
+restart the calculation per group, same idea as `GROUP BY`, minus the
+collapsing:
 
 ```sql
-SELECT district_id, account_id, date,
-       ROW_NUMBER() OVER (PARTITION BY district_id ORDER BY date) AS row_num
-FROM bank.account;
+SELECT status, loan_id, duration, amount,
+       AVG(amount) OVER(PARTITION BY status) AS Avg_amount
+FROM bank.loan;
 ```
 
-Numbers each account 1, 2, 3... *within its own district*, ordered by
-when it was opened — the numbering restarts at 1 for every new
-`district_id`.
+Now each row shows the average for *its own* `status`, not the global
+average. Partitioning can stack multiple columns too —
+`PARTITION BY status, duration` groups by the combination of both, same
+as multi-column `GROUP BY`.
 
-### `RANK()` vs `DENSE_RANK()` — ties behave differently
+Adding `ORDER BY` inside the same `OVER()` doesn't change *which* rows
+are grouped, only recomputes running/ranking values *within* that group
+in a given order (more relevant once `SUM`/`RANK`/`LAG` are in play,
+below — for a plain `AVG` per partition it doesn't change the result,
+just how MySQL walks through the rows to get there).
+
+### Several window functions in one query
+
+Nothing stops you from stacking multiple `OVER()` clauses in the same
+`SELECT` — each one computed independently:
 
 ```sql
-SELECT status, ROUND(AVG(amount), 2) AS avg_amount,
-       RANK() OVER (ORDER BY AVG(amount) DESC) AS rnk,
-       DENSE_RANK() OVER (ORDER BY AVG(amount) DESC) AS dense_rnk
+SELECT status, loan_id, duration, amount,
+       AVG(amount) OVER(PARTITION BY status, duration) AS Avg_amount,
+       ROW_NUMBER() OVER(PARTITION BY status, duration ORDER BY amount DESC) AS Row_number
 FROM bank.loan
-GROUP BY status;
+ORDER BY status, duration, amount DESC;
 ```
 
-Verified result — loan statuses ranked by average amount:
+Here `ROW_NUMBER()` numbers loans 1, 2, 3... *within* each
+status+duration combo, ranked by amount — while `AVG` on the same
+partition still shows the group's average on every row. Two different
+window calculations, same partition, no conflict.
 
-```
-status  avg_amount  rnk  dense_rnk
-D       249284.53   1    1
-C       171410.35   2    2
-B       140720.90   3    3
-A       91641.46    4    4
-```
-
-No ties here, so `RANK`/`DENSE_RANK` happen to agree — the real
-difference only shows up with tied values: `RANK()` **skips** the next
-number after a tie (1, 1, 3), `DENSE_RANK()` **doesn't** (1, 1, 2).
-
-### `NTILE(n)` — split into n roughly-equal buckets
+### Running/cumulative totals
 
 ```sql
-SELECT status, ROUND(AVG(amount), 2) AS avg_amount,
-       NTILE(2) OVER (ORDER BY AVG(amount)) AS half
-FROM bank.loan
-GROUP BY status;
+SELECT account_id, CONVERT(trans.date, DATE) AS Date, amount,
+       SUM(amount) OVER(PARTITION BY account_id ORDER BY Date) AS Cum_sum
+FROM bank.trans;
 ```
 
-Verified: splits the 4 statuses into a lower half (`A`, `B` → bucket 1)
-and upper half (`C`, `D` → bucket 2) by average amount — a quick way to
-bucket things into quartiles/halves/deciles without manually computing
-percentile cutoffs.
+This is where `ORDER BY` *inside* `OVER()` actually changes the numbers:
+without it, `SUM() OVER(PARTITION BY account_id)` would just repeat the
+account's grand total on every row. *With* `ORDER BY Date`, each row
+instead gets the running total **up to and including that row's date** —
+a cumulative balance-style column, computed per account.
 
-### `LAG()` / `LEAD()` — look at a neighboring row
+### `ROW_NUMBER()` vs `RANK()` vs `DENSE_RANK()` — side by side
 
 ```sql
-SELECT A1 AS district_id, A2 AS district_name, A11 AS avg_salary,
-       LAG(A11) OVER (ORDER BY A1) AS prev_district_salary
-FROM bank.district;
+SELECT status, duration, amount,
+       AVG(amount) OVER(PARTITION BY status, duration) AS Average,
+       RANK() OVER(PARTITION BY status, duration ORDER BY amount DESC) AS Rank_,
+       DENSE_RANK() OVER(PARTITION BY status, duration ORDER BY amount DESC) AS Dense_rank,
+       ROW_NUMBER() OVER(PARTITION BY status, duration ORDER BY amount DESC) AS Row_number
+FROM bank.loan;
 ```
 
-`LAG()` pulls in a value from the *previous* row (by the given order);
-`LEAD()` does the same for the *next* row. First row's `LAG()` is `NULL`
-— there's nothing before it. Classic use case: month-over-month change,
-computed as `current_value - LAG(current_value) OVER (...)`.
+All three number the rows, but disagree the moment there's a tie in
+`amount` within the same partition:
 
-### Window frame — `ROWS BETWEEN ... PRECEDING AND ... FOLLOWING`
+| | On a tie | After a tie of 2 |
+|---|---|---|
+| `ROW_NUMBER()` | breaks it arbitrarily — still gives out distinct 1, 2, 3... | continues 1, 2, 3, 4 regardless |
+| `RANK()` | gives both rows the same rank | **skips** the next number (1, 1, 3) |
+| `DENSE_RANK()` | gives both rows the same rank | **doesn't skip** (1, 1, 2) |
 
-For things like a moving average, the frame narrows *which* rows around
-the current one get included:
+Without a `PARTITION BY` at all, `RANK()`/`ROW_NUMBER()` just rank across
+the whole table — used this way to rank all 682 loans by amount,
+no groups involved.
+
+---
+
+## Check for understanding — solved in [4.6_sql_window_functions.sql](4.6_sql_window_functions.sql)
+
+**Rank districts by different variables, then again grouped by region**
+(`district` columns: `A4` inhabitants, `A9` cities, `A10` urban ratio,
+`A11` avg salary, `A12` unemployment rate — technically "unemployment
+rate '95" specifically, per the case study's own column reference, not a
+generic latest figure).
+
+Query 1 — no `PARTITION BY`, ranks all 77 districts against each other on
+three variables at once:
 
 ```sql
-SELECT date, amount,
-       AVG(amount) OVER (
-           ORDER BY date
-           ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING
-       ) AS moving_avg
-FROM bank.trans
-WHERE account_id = 1787;
+SELECT A2 AS district_name, A3 AS region, A4 AS inhabitants,
+       RANK() OVER (ORDER BY A4 DESC) AS inhabitants_rank,
+       A11 AS avg_salary,
+       RANK() OVER (ORDER BY A11 DESC) AS avg_salary_rank,
+       A12 AS unemployment_rate_95,
+       RANK() OVER (ORDER BY A12 DESC) AS unemployment_rank
+FROM bank.district
+ORDER BY inhabitants_rank;
 ```
 
-`1 PRECEDING AND 1 FOLLOWING` = a 3-row window centered on the current
-row (itself + one before + one after). `UNBOUNDED PRECEDING` instead
-means "everything from the start up to here" — a running total/average.
+`Hl.m. Praha` (Prague) comes back #1 on both inhabitants and avg_salary —
+expected, it's the capital — but only **#76 out of 77** on unemployment,
+i.e. nearly the lowest unemployment nationally. Worth noting precisely
+*because* it's counter to assuming "biggest = worst on every metric."
+
+Query 2 — identical query, `PARTITION BY A3` (region) added to every
+`OVER()`, so each ranking restarts at 1 per region instead of running
+across the whole country:
+
+```sql
+SELECT A2 AS district_name, A3 AS region, A4 AS inhabitants,
+       RANK() OVER (PARTITION BY A3 ORDER BY A4 DESC) AS inhabitants_rank_in_region,
+       A11 AS avg_salary,
+       RANK() OVER (PARTITION BY A3 ORDER BY A11 DESC) AS avg_salary_rank_in_region,
+       A12 AS unemployment_rate_95,
+       RANK() OVER (PARTITION BY A3 ORDER BY A12 DESC) AS unemployment_rank_in_region
+FROM bank.district
+ORDER BY region, inhabitants_rank_in_region;
+```
+
+E.g. Mlada Boleslav isn't remotely the biggest district nationally, but
+it comes back **#1 for avg_salary within central Bohemia** specifically —
+the exact kind of "locally #1, nationally unremarkable" result that only
+`PARTITION BY` surfaces.
+
+---
+
+## Bonus: `LAG()` and building month-over-month active users step by step
+
+The class script builds this up in layers rather than one giant query —
+worth following in that order, since each step is genuinely a building
+block for the next one, same "define before use" logic as chained CTEs.
+
+**Step 1 — a view extracting year/month from every transaction:**
+
+```sql
+CREATE OR REPLACE VIEW bank.user_activity AS
+SELECT account_id,
+       CONVERT(date, DATE) AS Activity_date,
+       DATE_FORMAT(CONVERT(date,DATE), '%M') AS Activity_Month,
+       DATE_FORMAT(CONVERT(date,DATE), '%m') AS Activity_Month_number,
+       DATE_FORMAT(CONVERT(date,DATE), '%Y') AS Activity_year
+FROM bank.trans;
+```
+
+Both `%M` (month name, for display) and `%m` (month number, `01`-`12`)
+are pulled — `%M` reads better in the output, but sorting alphabetically
+by month *name* would put "April" before "January," so `%m` is what
+`ORDER BY` actually needs later.
+
+**Step 2 — count active accounts per month:**
+
+```sql
+SELECT Activity_year, Activity_Month, Activity_Month_number, COUNT(account_id) AS Active_users
+FROM bank.user_activity
+GROUP BY Activity_year, Activity_Month, Activity_Month_number
+ORDER BY Activity_year ASC, Activity_Month_number ASC;
+```
+
+**Step 3 — save that as its own view**, `monthly_active_users` — so the
+next step can build on it without re-running the `GROUP BY` every time.
+
+**Step 4 — `LAG()` to pull in last month's count:**
+
+```sql
+SELECT Activity_year, Activity_month, Active_users,
+       LAG(Active_users, 1) OVER(ORDER BY Activity_year, Activity_Month_number) AS Last_month
+FROM bank.monthly_active_users;
+```
+
+`LAG(Active_users, 1)` = "the `Active_users` value from 1 row back, in
+this `ORDER BY`'s ordering" — since the data's ordered by year then
+month, "1 row back" reliably means "the previous calendar month." The
+very first row (1993's earliest month) gets `NULL` for `Last_month` —
+there's nothing before it to pull from.
+
+**Final step — wrap it in a CTE to compute the actual difference:**
+
+```sql
+WITH cte_view AS (
+  SELECT Activity_year, Activity_month, Active_users,
+         LAG(Active_users,1) OVER(ORDER BY Activity_year, Activity_Month_number) AS Last_month
+  FROM bank.monthly_active_users
+)
+SELECT Activity_year, Activity_month, Active_users, Last_month,
+       (Active_users - Last_month) AS Difference
+FROM cte_view;
+```
+
+The `LAG()` value can't be reused directly in the same `SELECT`'s
+column list (`Active_users - LAG(...)` in one line isn't valid — window
+functions can't be referenced by other expressions in the same
+`SELECT`), so the CTE exists specifically to give `LAG()`'s result a
+name (`Last_month`) that the outer query's arithmetic can then use like
+any normal column.
 
 ---
 
@@ -413,8 +532,10 @@ means "everything from the start up to here" — a running total/average.
 | `CREATE TEMPORARY TABLE` | current session | a large intermediate result, reused several times |
 | `CREATE VIEW` | permanent | a saved/reusable query, simplification, restricted access |
 | `WITH ... AS (...)` (CTE) | one query | breaking a complex query into named, readable steps |
-| `ROW_NUMBER()` | window | sequential numbering within a partition |
-| `RANK()` / `DENSE_RANK()` | window | ranking, with/without gaps after ties |
-| `NTILE(n)` | window | split into n roughly-equal buckets |
-| `LAG()` / `LEAD()` | window | compare a row to its neighbor |
+| `OVER()` | window | no partition — compute across every row at once |
+| `PARTITION BY` | window | restart the calculation per group, without collapsing rows |
+| `ROW_NUMBER()` | window | sequential numbering, always distinct even on ties |
+| `RANK()` / `DENSE_RANK()` | window | ranking; `RANK` skips numbers after a tie, `DENSE_RANK` doesn't |
+| `SUM()/AVG() OVER(... ORDER BY ...)` | window | running/cumulative total or average |
+| `LAG()` / `LEAD()` | window | pull in the previous/next row's value for comparison |
 | `ROWS BETWEEN ... AND ...` | window frame | moving average / running total |
