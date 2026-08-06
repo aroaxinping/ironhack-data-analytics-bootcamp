@@ -175,9 +175,9 @@ winner(s):
 WITH cte_client_trans_count AS (
   SELECT c.client_id, c.district_id, COUNT(t.trans_id) AS trans_count
   FROM bank.client c
-  JOIN bank.disp d ON c.client_id = d.client_id
-  JOIN bank.trans t ON d.account_id = t.account_id
-  JOIN bank.district da ON c.district_id = da.A1
+  INNER JOIN bank.disp d ON c.client_id = d.client_id
+  INNER JOIN bank.trans t ON d.account_id = t.account_id
+  INNER JOIN bank.district da ON c.district_id = da.A1
   WHERE da.A3 = 'central Bohemia'
   GROUP BY c.client_id, c.district_id
 ),
@@ -188,11 +188,18 @@ cte_max_trans_per_district AS (
 )
 SELECT da.A2 AS district_name, ct.client_id, ct.trans_count AS most_active_client_trans_count
 FROM cte_client_trans_count ct
-JOIN cte_max_trans_per_district m
+INNER JOIN cte_max_trans_per_district m
   ON ct.district_id = m.district_id AND ct.trans_count = m.max_trans_count
-JOIN bank.district da ON ct.district_id = da.A1
+INNER JOIN bank.district da ON ct.district_id = da.A1
 ORDER BY district_name;
 ```
+
+All three joins here are `INNER JOIN`, written explicitly rather than
+left as bare `JOIN` — same convention as [day 3](../day3/README.md#inner-join):
+the class script's own lecture examples (the temp tables and CTE
+examples above) keep the bare `JOIN` the professor wrote, but in my own
+solved queries I spell out `INNER` so the intent reads the same way
+`LEFT`/`RIGHT` already have to.
 
 16 rows back for the region's districts — and 4 of them (Kladno, Melnik,
 Mlada Boleslav, Rakovnik) return **two** tied "most active" clients
@@ -209,8 +216,8 @@ in the last week.**
 CREATE VIEW last_week_withdrawals AS
 SELECT c.client_id, ROUND(SUM(t.amount),2) AS total_withdrawals
 FROM bank.trans t
-JOIN bank.disp d ON t.account_id = d.account_id
-JOIN bank.client c ON d.client_id = c.client_id
+INNER JOIN bank.disp d ON t.account_id = d.account_id
+INNER JOIN bank.client c ON d.client_id = c.client_id
 WHERE t.type IN ('VYDAJ','VYBER')
 AND CONVERT(t.date, DATE) BETWEEN
     (SELECT DATE_SUB(MAX(CONVERT(date,DATE)), INTERVAL 6 DAY) FROM bank.trans)
