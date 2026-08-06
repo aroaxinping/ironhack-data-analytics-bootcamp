@@ -114,7 +114,7 @@ WHERE district_id IN (
 
 -- 2. Rewrite the previous as a join query.
 SELECT a.* FROM bank.account AS a
-JOIN bank.district AS d ON a.district_id = d.A1
+INNER JOIN bank.district AS d ON a.district_id = d.A1
 WHERE d.A3 = 'central Bohemia';
 -- same 574 accounts
 
@@ -126,7 +126,7 @@ WHERE district_id IN (
 );
 
 EXPLAIN SELECT a.* FROM bank.account AS a
-JOIN bank.district AS d ON a.district_id = d.A1
+INNER JOIN bank.district AS d ON a.district_id = d.A1
 WHERE d.A3 = 'central Bohemia';
 
 -- Checked with EXPLAIN rather than guessing: for this specific case (an uncorrelated

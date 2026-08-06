@@ -125,14 +125,14 @@ ON a.account_id = l.account_id;
 -- 1.
 SELECT da.A2 AS District_name, COUNT(c.client_id) AS Number_of_clients
 FROM bank.client c
-JOIN bank.district da ON c.district_id = da.A1
+INNER JOIN bank.district da ON c.district_id = da.A1
 GROUP BY da.A2
 ORDER BY Number_of_clients DESC;
 
 -- 2.
 SELECT da.A3 AS Region_name, COUNT(c.client_id) AS Number_of_clients
 FROM bank.client c
-JOIN bank.district da ON c.district_id = da.A1
+INNER JOIN bank.district da ON c.district_id = da.A1
 GROUP BY da.A3
 ORDER BY Number_of_clients DESC;
 
@@ -141,7 +141,7 @@ SELECT da.A2 AS District_name,
        DATE_FORMAT(CONVERT(a.date, DATE), '%Y') AS Year,
        COUNT(a.account_id) AS Accounts_opened
 FROM bank.account a
-JOIN bank.district da ON a.district_id = da.A1
+INNER JOIN bank.district da ON a.district_id = da.A1
 GROUP BY da.A2, Year
 ORDER BY District_name, Year;
 
@@ -193,9 +193,9 @@ ON da.A1 = c.district_id;
 -- Solution: added the SELECT columns, the WHERE filter for account owners, and ORDER BY
 SELECT da.A2 AS district_name, c.client_id, d.account_id
 FROM bank.disp AS d
-JOIN bank.client AS c
+INNER JOIN bank.client AS c
 ON d.client_id = c.client_id
-JOIN bank.district AS da
+INNER JOIN bank.district AS da
 ON da.A1 = c.district_id
 WHERE d.type = 'OWNER'
 ORDER BY district_name;
