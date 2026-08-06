@@ -143,6 +143,61 @@ would multiply each transaction by however many rows it matches on the
   logical step, then compose them at the end, instead of one giant nested
   subquery. Used exactly this way in the check-for-understanding below.
 
+### Defining more than one CTE — the comma, and why only the first gets `WITH`
+
+```sql
+WITH cte_a AS (
+  ...
+),
+cte_b AS (
+  ...
+),
+cte_c AS (
+  ...
+)
+SELECT ...   -- the actual query, outside/after every CTE definition
+```
+
+- **`WITH` is written once**, before the *first* CTE only — it's not a
+  per-CTE keyword, it's what says "a block of named result sets is about
+  to follow." Everything after it is one continuous list.
+- **Each CTE after the first is separated by a comma**, not by repeating
+  `WITH` — same punctuation as listing columns in a `SELECT`, just at the
+  clause level instead of the column level.
+- **They don't have to relate to each other.** `cte_b` is free to ignore
+  `cte_a` completely and query a totally unrelated table — the comma just
+  means "one more named result set is available in this query," not "this
+  one depends on the last one." (`cte_max_trans_per_district` in the
+  check-for-understanding below *does* build on `cte_client_trans_count`,
+  but that's a choice, not a requirement of the syntax.)
+- **Order still matters in one direction, though**: a CTE can only
+  reference CTEs defined *before* it in the same `WITH` list, never one
+  that comes later. MySQL reads top to bottom and a later name simply
+  doesn't exist yet from an earlier CTE's point of view.
+
+**Python analogy, since it maps almost exactly:** a CTE behaves like a
+`def` — you have to define it before you can call it, and it only exists
+in the scope it was defined in.
+
+```python
+def cte_a():
+    return ...          # defining it -- like WITH cte_a AS (...)
+
+def cte_b():
+    return cte_a() + 1  # can call cte_a() here, it already exists
+
+result = cte_b()         # calling it -- like SELECT ... FROM cte_b
+```
+
+Try to call `cte_a()` from inside a function defined *above* it, before
+Python has even seen the `def cte_a` line, and it breaks — same reason
+`cte_max_trans_per_district` can reference `cte_client_trans_count` but
+not the other way around. And the final `SELECT` outside the `WITH`
+block is like the line that actually *calls* the function — defining
+`cte_a` and `cte_b` alone does nothing on its own, same as a Python file
+full of `def`s that never gets a line calling any of them; nothing runs
+until something at the bottom says `cte_b()`.
+
 ### Temp table vs view vs CTE vs subquery — when to reach for which
 
 | | Lives for | Reusable across queries? | Stores data? |
