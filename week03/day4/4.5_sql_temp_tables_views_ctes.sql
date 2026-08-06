@@ -93,9 +93,9 @@ ON ct.account_id = a.account_id;
 WITH cte_client_trans_count AS (
   SELECT c.client_id, c.district_id, COUNT(t.trans_id) AS trans_count
   FROM bank.client c
-  JOIN bank.disp d ON c.client_id = d.client_id
-  JOIN bank.trans t ON d.account_id = t.account_id
-  JOIN bank.district da ON c.district_id = da.A1
+  INNER JOIN bank.disp d ON c.client_id = d.client_id
+  INNER JOIN bank.trans t ON d.account_id = t.account_id
+  INNER JOIN bank.district da ON c.district_id = da.A1
   WHERE da.A3 = 'central Bohemia'
   GROUP BY c.client_id, c.district_id
 ),
@@ -106,9 +106,9 @@ cte_max_trans_per_district AS (
 )
 SELECT da.A2 AS district_name, ct.client_id, ct.trans_count AS most_active_client_trans_count
 FROM cte_client_trans_count ct
-JOIN cte_max_trans_per_district m
+INNER JOIN cte_max_trans_per_district m
   ON ct.district_id = m.district_id AND ct.trans_count = m.max_trans_count
-JOIN bank.district da ON ct.district_id = da.A1
+INNER JOIN bank.district da ON ct.district_id = da.A1
 ORDER BY district_name;
 
 -- A few districts (Kladno, Melnik, Mlada Boleslav, Rakovnik...) come back with 2 "most active"
@@ -160,8 +160,8 @@ LIMIT 20;
 CREATE VIEW last_week_withdrawals AS
 SELECT c.client_id, ROUND(SUM(t.amount),2) AS total_withdrawals
 FROM bank.trans t
-JOIN bank.disp d ON t.account_id = d.account_id
-JOIN bank.client c ON d.client_id = c.client_id
+INNER JOIN bank.disp d ON t.account_id = d.account_id
+INNER JOIN bank.client c ON d.client_id = c.client_id
 WHERE t.type IN ('VYDAJ','VYBER')
 AND CONVERT(t.date, DATE) BETWEEN
     (SELECT DATE_SUB(MAX(CONVERT(date,DATE)), INTERVAL 6 DAY) FROM bank.trans)
