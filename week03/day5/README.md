@@ -17,11 +17,15 @@ today — the notebook itself is the exercise.
 SQLAlchemy is the bridge between Python and the database — instead of typing
 raw SQL into MySQL Workbench, you build a `connection_string`, hand it to
 `create_engine()`, and everything downstream (queries, results, even pandas)
-runs through Python:
+runs through Python. This setup happens in two separate steps, worth reading
+as two steps rather than one block: first get the password *safely*, then
+use it to build the connection string and create the `engine`.
 
 ```python
+# Step 1 -- get the password without ever writing it in the code
 password = getpass.getpass("Please give me your SQL password: ")
 
+# Step 2 -- build the connection string with it, and create the engine
 bd = "bank"
 connection_string = 'mysql+pymysql://root:' + password + '@localhost/' + bd
 engine = create_engine(connection_string)
