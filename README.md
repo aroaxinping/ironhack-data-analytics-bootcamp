@@ -191,6 +191,10 @@ Workflow for each lab:
 | MySQL Database Creation | [week03/day1](week03/day1/create.sql) | [lab-sql-mysql-db-creation](https://github.com/aroaxinping/lab-sql-mysql-db-creation) |
 | SQL Basic Queries | [week03/day2](week03/day2/lab-sql-basic-queries.sql) | [lab-sql-basic-queries](https://github.com/aroaxinping/lab-sql-basic-queries) |
 | SQL Data Aggregation and Transformation | [week03/day2](week03/day2/lab-sql-aggregation-and-transformation.sql) | [lab-sql-aggregation-and-transformation](https://github.com/aroaxinping/lab-sql-aggregation-and-transformation) |
+| SQL Joins | [week03/day3](week03/day3/lab-sql-joins.sql) | [lab-sql-joins](https://github.com/aroaxinping/lab-sql-joins) |
+| SQL Subqueries | [week03/day3](week03/day3/lab-sql-subqueries.sql) | [lab-sql-subqueries](https://github.com/aroaxinping/lab-sql-subqueries) |
+| SQL Temporary Tables, Views and CTEs | [week03/day4](week03/day4/lab-sql-temp-tables-views-ctes.sql) | [lab-sql-temp-tables-views-ctes](https://github.com/aroaxinping/lab-sql-temp-tables-views-ctes) |
+| SQL Window Functions | [week03/day4](week03/day4/lab-sql-window-functions.sql) | [lab-sql-window-functions](https://github.com/aroaxinping/lab-sql-window-functions) |
 
 ## Bonus content
 
