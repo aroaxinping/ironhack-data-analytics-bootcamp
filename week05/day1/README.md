@@ -136,3 +136,41 @@ by construction: Large 495, Medium 483, Small 482 houses.
 This is the same shape-reading recipe as `SalePrice` above (mean vs.
 median position → skew sign → confirm with skew/kurtosis numbers →
 confirm again visually), just with a much milder effect size.
+
+## Lab: Amazon UK Product Insights (univariate)
+
+**[`lab-eda-univariate.ipynb`](lab-eda-univariate.ipynb)** — same
+2.44M-row Amazon UK dataset used in the [day 2](../day2) bivariate lab
+(not committed here, downloaded from
+[Kaggle](https://www.kaggle.com/datasets/asaniczka/uk-optimal-product-price-prediction/)).
+
+**Categories**: `Sports & Outdoors` alone is 34.2% of the *entire*
+dataset — bigger than the next ~44 categories its size combined. Any
+unweighted per-category comparison needs to keep that in mind.
+
+**Price**: mean (£89.24) sits way above median (£19.09) and mode
+(£9.99) — the giveaway for right skew, confirmed by the histogram (had
+to zoom to the 99th percentile to be readable at all) and box plot. The
+£100,000 "maximum" turned out to be a single junk row (*"HB FBA Test
+Treadmill"*), a literal test listing — a reminder to always eyeball an
+extreme max/min before trusting it, not just compute it.
+
+**Ratings — the one that actually mattered**: `stars == 0` is **50.2%**
+of all listings, almost certainly a "not yet rated" placeholder rather
+than a real 0-star average (same pattern flagged in the day 2 lab). Every
+stat was computed both raw and rated-only, and they tell opposite
+stories:
+
+| | Raw (incl. zero-placeholder) | Rated only |
+| --- | ---: | ---: |
+| Mean | 2.15 | 4.32 |
+| Median / Mode | 0.0 / 0.0 | 4.4 / 4.5 |
+| Std | 2.19 | 0.56 |
+| Skew | 0.08 (looks symmetric) | -2.38 (strongly left-skewed) |
+
+The raw numbers look almost symmetric purely by coincidence — the zero
+spike happens to roughly balance the 4-5 star cluster. That "symmetry" is
+an artifact of mixing two different populations (rated vs. not-yet-rated)
+into one column, not a real property of how customers rate products.
+**Always check what a suspicious mode/median value like 0 actually means
+in the data before reporting it as a finding.**
