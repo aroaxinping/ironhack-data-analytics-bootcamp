@@ -66,12 +66,19 @@ than a confident overclaim that falls apart in the Q&A.
 
 ## Lab | Tableau Advanced
 
-Applies the above: a multi-view dashboard with calculated fields,
-parameters and dashboard actions, presented as a story rather than a
-gallery of charts.
+Continues the day 4 workbook: a choropleth map, a regression plot
+(`Customer Lifetime Value` vs. `Income`) and a boxplot (`Total Claim
+Amount` by `Vehicle Size`), combined into a dashboard and then into a
+Tableau **story**.
 
-As with day 4, the deliverable is a Tableau Public workbook rather than a
-file in this repo, so nothing is committed here for it.
+As with day 4, the workbook lives in Tableau Public, so what's committed
+here is the brief plus the reference figures each view should reproduce.
+The headline results: small vehicles carry the *highest* average claims,
+and CLV vs. Income comes out at r ≈ 0.024 with p ≈ 0.02 — significant and
+meaningless at the same time, which is the day 4 lesson showing up again
+with the sign flipped.
+
+See [`lab-tableau-advanced.md`](lab-tableau-advanced.md).
 
 ## Introduction to the Vanguard Project
 
@@ -126,3 +133,8 @@ KPIs are the argument.
 
 Project work itself starts in week 6 — see that week's folder for the
 implementation.
+
+## Files
+
+- [`lab-tableau-advanced.md`](lab-tableau-advanced.md) — lab brief, step
+  checklist and reference figures.
