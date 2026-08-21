@@ -71,12 +71,13 @@ Continues the day 4 workbook: a choropleth map, a regression plot
 Amount` by `Vehicle Size`), combined into a dashboard and then into a
 Tableau **story**.
 
-As with day 4, the workbook lives in Tableau Public, so what's committed
-here is the brief plus the reference figures each view should reproduce.
-The headline results: small vehicles carry the *highest* average claims,
-and CLV vs. Income comes out at r ≈ 0.024 with p ≈ 0.02 — significant and
-meaningless at the same time, which is the day 4 lesson showing up again
-with the sign flipped.
+The headline results: small vehicles carry the *highest* average claims
+(t = 9.37, p ≈ 1.5e-20 — significant *and* a 16% gap), while CLV vs.
+Income comes out at r ≈ 0.024 with p ≈ 0.02 — significant and meaningless
+at the same time. Dropping the 2,317 zero-income customers kills it
+outright (r = 0.003, p = 0.81), so the "significant" correlation was an
+artifact of that block all along. Two results, the same machinery,
+opposite verdicts — which is the day 4 lesson landing twice in one lab.
 
 See [`lab-tableau-advanced.md`](lab-tableau-advanced.md).
 
@@ -138,3 +139,7 @@ implementation.
 
 - [`lab-tableau-advanced.md`](lab-tableau-advanced.md) — lab brief, step
   checklist and reference figures.
+- [`tableau-lab-advanced.twbx`](tableau-lab-advanced.twbx) — the Tableau
+  workbook: 7 sheets plus 2 dashboards, with the CSV packaged inside.
+- [`lab-tableau-advanced.ipynb`](lab-tableau-advanced.ipynb) — the three
+  advanced views in pandas/seaborn.
