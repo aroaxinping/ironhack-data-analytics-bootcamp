@@ -111,8 +111,15 @@ raw rows — so the first thing to check on any new view is *what
 aggregation is this actually showing*, and whether the dimension you
 dropped in is the grain you meant.
 
-Tableau deliverables live in Tableau Public rather than in this repo, so
-there are no files for the lab here — only the notebook above.
+## Lab | Tableau
+
+Barplots, a treemap and a cross table over an auto-insurance customer
+dataset, assembled into a dashboard. The workbook itself (`tableau-lab.twbx`)
+lives in Tableau Public rather than in this repo, so what's committed
+here is the brief plus reference figures computed in pandas from the same
+CSV — the numbers each Tableau view should be reproducing.
+
+See [`lab-tableau.md`](lab-tableau.md).
 
 ## Files
 
@@ -120,3 +127,5 @@ there are no files for the lab here — only the notebook above.
   — class notebook, including the solved "check for understanding"
   section (after-transformation checks for `LotArea` and `1stFlrSF`, plus
   `GrLivArea` chosen and transformed from scratch).
+- [`lab-tableau.md`](lab-tableau.md) — lab brief, step checklist and
+  reference figures.
