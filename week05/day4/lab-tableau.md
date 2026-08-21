@@ -10,19 +10,27 @@ single dashboard.
 employment status, marital status, income, Customer Lifetime Value,
 Total Claim Amount, vehicle class/size, policy and sales-channel info).
 
-**Deliverable:** a Tableau workbook saved as `tableau-lab.twbx`. Tableau
-workbooks aren't committed here — the link goes below once it's
-published.
+**Deliverable:** [`tableau-lab.twbx`](tableau-lab.twbx) — committed here,
+with the CSV packaged inside so it opens without a broken data
+connection. [`lab-tableau.ipynb`](lab-tableau.ipynb) rebuilds the same
+four views in pandas/seaborn so the numbers are reproducible from the
+repo.
 
-📊 **Tableau Public:** _(pending)_
+📊 **Tableau Public:** _(pending — upload once reviewed in Desktop)_
+
+> The workbook was generated programmatically (Tableau's `.twb` is XML,
+> `.twbx` is that plus the data in a zip). It carries the data source,
+> the four sheets with the right pills on the right shelves, and the
+> dashboard. Formatting, sorting and colour still want a pass in Tableau
+> Desktop — treat it as a scaffold, not a finished submission.
 
 ---
 
 ## Steps
 
-- [ ] **1. Data import** — connect Tableau to the CSV above.
-- [ ] **2. Gender barplot** — customer count by `Gender`.
-- [ ] **3. Employment × Gender barplot** — customer count by
+- [x] **1. Data import** — connect Tableau to the CSV above.
+- [x] **2. Gender barplot** — customer count by `Gender`.
+- [x] **3. Employment × Gender barplot** — customer count by
       `EmploymentStatus`, segmented by `Gender`.
 - [ ] **4. Measures vs. dimensions** — review what Tableau auto-assigned
       and fix it. The trap in this dataset is that several ID-ish or
@@ -30,12 +38,12 @@ published.
       Policies`, `Number of Open Complaints`, `Months Since Last Claim`
       and `Months Since Policy Inception` are counts/labels more often
       than things you want summed. `Customer` is an ID, not data.
-- [ ] **5. Gender barplot sheet** — its own sheet.
-- [ ] **6. Employment × Gender barplot sheet** — its own sheet.
-- [ ] **7. State treemap sheet** — customers per `State`, sized by count.
-- [ ] **8. Marital Status × Gender cross table.**
-- [ ] **9. Dashboard** — all sheets combined, interactive.
-- [ ] **10. Save** as `tableau-lab.twbx`.
+- [x] **5. Gender barplot sheet** — its own sheet.
+- [x] **6. Employment × Gender barplot sheet** — its own sheet.
+- [x] **7. State treemap sheet** — customers per `State`, sized by count.
+- [x] **8. Marital Status × Gender cross table.**
+- [x] **9. Dashboard** — all sheets combined, interactive.
+- [x] **10. Save** as `tableau-lab.twbx`.
 
 ## Reference figures
 
@@ -86,3 +94,10 @@ The recurring lesson from this lab is the one from the Tableau I class:
 chart here is a row count, but Tableau's instinct on any numeric field
 is `SUM`, so a "customers by state" bar built by dragging the wrong pill
 silently becomes "total income by state" and still looks plausible.
+
+## Files
+
+- [`tableau-lab.twbx`](tableau-lab.twbx) — the workbook (4 sheets +
+  `Customer Overview` dashboard, data packaged inside).
+- [`lab-tableau.ipynb`](lab-tableau.ipynb) — the same four views in
+  pandas/seaborn, executed with outputs.

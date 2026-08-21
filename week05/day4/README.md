@@ -114,12 +114,10 @@ dropped in is the grain you meant.
 ## Lab | Tableau
 
 Barplots, a treemap and a cross table over an auto-insurance customer
-dataset, assembled into a dashboard. The workbook itself (`tableau-lab.twbx`)
-lives in Tableau Public rather than in this repo, so what's committed
-here is the brief plus reference figures computed in pandas from the same
-CSV — the numbers each Tableau view should be reproducing.
+dataset, assembled into a dashboard.
 
-See [`lab-tableau.md`](lab-tableau.md).
+See [`lab-tableau.md`](lab-tableau.md) for the brief and the reference
+figures each view should reproduce.
 
 ## Files
 
@@ -129,3 +127,7 @@ See [`lab-tableau.md`](lab-tableau.md).
   `GrLivArea` chosen and transformed from scratch).
 - [`lab-tableau.md`](lab-tableau.md) — lab brief, step checklist and
   reference figures.
+- [`tableau-lab.twbx`](tableau-lab.twbx) — the Tableau workbook: 4 sheets
+  plus a `Customer Overview` dashboard, with the CSV packaged inside.
+- [`lab-tableau.ipynb`](lab-tableau.ipynb) — the same four views in
+  pandas/seaborn.
