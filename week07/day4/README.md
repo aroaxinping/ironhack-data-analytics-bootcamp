@@ -68,5 +68,28 @@ RMSE 0.647, R² 0.679). `p=1` (Manhattan distance) winning over the default
 Euclidean is a bit non-obvious — worth remembering `p` is tunable at all,
 not just `n_neighbors`.
 
-**Lab notebook**: [`7.4_hyperparameter_tuning_optuna.ipynb`](7.4_hyperparameter_tuning_optuna.ipynb)
-(class notebook, California housing dataset via `sklearn.datasets.fetch_california_housing`).
+**Class notebook**: [`7.4_hyperparameter_tuning_optuna.ipynb`](7.4_hyperparameter_tuning_optuna.ipynb)
+(California housing dataset via `sklearn.datasets.fetch_california_housing`).
+
+## Lab: tuning didn't beat the default, and that's a real result
+
+**[`lab-hyperparameter-tuning.ipynb`](lab-hyperparameter-tuning.ipynb)** —
+took Random Forest (the best model from day 3's Ensemble lab, 79.3% test
+accuracy on Spaceship Titanic) and ran `GridSearchCV` over `n_estimators`,
+`max_depth`, `min_samples_split`, `max_features` (54 combinations, 5-fold
+CV).
+
+- Best combination: `max_depth=10, max_features='sqrt',
+  min_samples_split=5, n_estimators=300` — CV accuracy **80.7%**.
+- Test accuracy with those hyperparameters: **78.8%** — slightly *below*
+  the untouched default Random Forest's **79.3%**.
+
+Worth sitting with rather than dismissing: the CV score averages 5 folds
+of *training* data, the test score is one measurement on one fixed 20%
+split — a gap this small is normal single-split noise, not proof tuning
+failed. Grid Search optimizes cross-validated performance, which is a
+more reliable signal than any single test split; a small dip on this
+particular test set doesn't mean the defaults were secretly better in
+general, and constraining `max_depth`/`min_samples_split` away from
+scikit-learn's unrestricted defaults is a legitimate anti-overfitting
+move even when it doesn't show up as a win on one held-out slice.
