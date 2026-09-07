@@ -2,6 +2,9 @@
 
 Runs alongside the ML project (a bit each day).
 
+Repo del proyecto: [aroaxinping/drive-failure-predictor](https://github.com/aroaxinping/drive-failure-predictor)
+— predicción de fallos de disco duro con datos SMART reales de Backblaze.
+
 ## [Day 1](day1) — Intro to Machine Learning
 - Intro to Machine Learning (+ hands on)
 - Lab | Intro to Machine Learning

@@ -2,6 +2,10 @@
 
 First group project: SQL, from data to insight.
 
+Repo del proyecto: [aroaxinping/first_project](https://github.com/aroaxinping/first_project)
+— fork del template del profe ([`isg75/first_project`](https://github.com/isg75/first_project)),
+con Carla y Paul.
+
 ## [Day 1](day1) — Project kickoff, Git collaboration & Agile
 - Git and GitHub - More on Git Commands
 - Git and GitHub - Fork and Clone
