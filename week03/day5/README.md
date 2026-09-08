@@ -4,11 +4,12 @@
 - Bonus: MySQL Connector
 - SQL challenge
 
-Solved from the real class notebook,
-[4.7_connecting_python_sql.ipynb](4.7_connecting_python_sql.ipynb), against the
+Solved from the real class notebooks,
+[4.7_connecting_python_sql.ipynb](4.7_connecting_python_sql.ipynb) and
+[4.8_build_fastapi_api.ipynb](4.8_build_fastapi_api.ipynb), against the
 real `bank` database (same case study as the rest of week 3 — see
 [day 2's README](../day2/README.md) for setup notes). No fork/lab repo for
-today — the notebook itself is the exercise.
+today — the notebooks themselves are the exercise.
 
 ---
 
@@ -248,3 +249,62 @@ doesn't wrap it in a context manager by default.
 | Get one column only | `.scalars()` / `.scalars().all()` | manual loop over `fetchall()` rows |
 | Save changes (`INSERT`/`UPDATE`) | needs explicit `connection.commit()` | needs explicit `conn.commit()` |
 | Close | automatic (`with` block) | manual `cursor.close()` + `conn.close()` |
+
+---
+
+## Bonus: exposing a MySQL table as a FastAPI API
+
+Where the SQLAlchemy/Connector sections above run a query and get a
+`DataFrame` back *inside* a notebook, FastAPI goes one step further: it
+turns a query into an HTTP endpoint other programs can hit, against the
+Sakila (movie rental) sample database instead of `bank`.
+
+```python
+from fastapi import FastAPI
+import pymysql
+
+app = FastAPI()
+
+def get_db_connection():
+    try:
+        connection = pymysql.connect(
+            user='...', password='...', database='sakila',
+            cursorclass=pymysql.cursors.DictCursor,
+        )
+        return connection
+    except Exception as e:
+        print(f"Error connecting to database: {e}")
+        return None
+
+@app.get("/actors")
+def get_actors():
+    connection = get_db_connection()
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT actor_id, first_name, last_name FROM actor;")
+        actors = cursor.fetchall()
+    connection.close()
+    return actors
+```
+
+A few things worth keeping straight:
+
+- **`pymysql.cursors.DictCursor`** makes `fetchall()` return a list of
+  dicts (`{"actor_id": 1, "first_name": "PENELOPE", ...}`) instead of plain
+  tuples — that's what lets a route just `return actors` and have FastAPI
+  serialize it straight to JSON, no manual `jsonify`/dict-building needed
+  (this notebook is adapted from an older Flask version of the same
+  lesson — Flask needs `jsonify(...)`, FastAPI doesn't).
+- **Query parameters aren't `request.args` in FastAPI** — that's Flask
+  syntax the "search_movies" markdown cell carried over by mistake. In
+  FastAPI a query param is just a typed function argument:
+  `def search_movies(title: str = ""):` — FastAPI reads it straight off
+  the URL's `?title=...`, no `request` object involved.
+- **A notebook can *define* the FastAPI app but can't usefully *run* it.**
+  `uvicorn.run(app)` blocks the process — fine as a script (`python
+  main.py`, then hit `http://127.0.0.1:8000/actors`), but blocks a running
+  Jupyter kernel indefinitely instead. That's why this notebook only
+  defines `app` and its routes and stops there — running it for real means
+  moving the same code into a `.py` file.
+- FastAPI adds two endpoints for free from the routes you define: **`/docs`**
+  (interactive Swagger UI) and **`/redoc`** — worth checking on any FastAPI
+  project before writing manual API documentation by hand.
