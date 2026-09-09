@@ -130,6 +130,9 @@ Each week has its own folder with a `README.md` summary and `day1`–`day5` subf
 <details>
 <summary><strong>Week 10 — Extra Week 1: Unsupervised Learning & Streamlit</strong></summary>
 
+> Weeks 10 and 11 are extra content — not part of the official Spain
+> program's curriculum.
+
 [Week folder](week10)
 
 - [Day 1](week10/day1) — Web scraping recap & Gnod project
